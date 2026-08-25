@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="復習メニュー｜資格試験の合格堂" description="間違えた問題や迷って正解した問題だけを選んで復習できます。" noindex>
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><strong>復習</strong></div>
+    <section class="dashboard-hero shell">
+      <p class="eyebrow"><span data-exam-name>第一種衛生管理者</span> · あなた専用の復習</p>
+      <h1>間違い方で、<br />解き直しを選ぶ。</h1>
+      <p>答えを間違えた問題だけでなく、迷って正解した問題も残します。暗記できたつもりを減らすための復習メニューです。</p>
+    </section>
+    <section class="mode-grid shell">
+      <a class="mode-card danger" data-mode-link="wrong" href="/practice/?mode=wrong"><span>01</span><div><small>間違えた問題</small><strong data-wrong-count>0問</strong></div><p>最後の回答が不正解だった問題だけ。</p><i>解き直す →</i></a>
+      <a class="mode-card amber" data-mode-link="uncertain" href="/practice/?mode=uncertain"><span>02</span><div><small>迷って正解</small><strong data-uncertain-count>0問</strong></div><p>正解したけれど、自信がなかった問題。</p><i>確かめる →</i></a>
+      <a class="mode-card green" data-mode-link="review" href="/practice/?mode=review"><span>03</span><div><small>まとめて復習</small><strong data-review-count>0問</strong></div><p>間違いと曖昧な正解を、一度に復習。</p><i>まとめて解く →</i></a>
+    </section>
+    <section class="review-note shell">
+      <div><p class="eyebrow">復習の判定</p><h2>最後の回答で、<br />自動的に入れ替わります。</h2></div>
+      <p>解き直して「自信あり」で正解すれば復習対象から外れます。履歴そのものは学習記録に残るので、改善の経過は確認できます。</p>
+    </section>
+  </main>
+  <Footer />
+  <script>
+    import { questionIdsForMode, readLearning } from "../scripts/learning";
+    const params = new URLSearchParams(location.search);
+    const examSlug = params.get("exam") === "kikenbutsu-otsu4" ? "kikenbutsu-otsu4" : "eisei-kanrisha";
+    const examName = examSlug === "kikenbutsu-otsu4" ? "危険物乙4" : "第一種衛生管理者";
+    const state = readLearning(examSlug);
+    document.querySelectorAll("[data-exam-name]").forEach(node => node.textContent = examName);
+    document.querySelectorAll<HTMLAnchorElement>("[data-mode-link]").forEach(link => {
+      const mode = link.dataset.modeLink;
+      link.href = `/practice/?mode=${mode}${examSlug === "kikenbutsu-otsu4" ? "&exam=kikenbutsu-otsu4" : ""}`;
+    });
+    const setCount = (name: string, count: number) => {
+      const node = document.querySelector(`[data-${name}-count]`);
+      if (node) node.textContent = `${count}問`;
+    };
+    setCount("wrong", questionIdsForMode("wrong", state).length);
+    setCount("uncertain", questionIdsForMode("uncertain", state).length);
+    setCount("review", questionIdsForMode("review", state).length);
+  </script>
+</BaseLayout>

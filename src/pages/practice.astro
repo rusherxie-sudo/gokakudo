@@ -1,0 +1,233 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import { questions as eiseiQuestions } from "../data/questions";
+import { otsu4Questions } from "../data/otsu4-questions";
+
+const publicQuestionBanks = { "eisei-kanrisha": eiseiQuestions, "kikenbutsu-otsu4": otsu4Questions };
+const publicExamConfig = {
+  "eisei-kanrisha": { name: "第一種衛生管理者", home: "/exams/eisei-kanrisha/" },
+  "kikenbutsu-otsu4": { name: "危険物取扱者 乙種4類", home: "/exams/kikenbutsu-otsu4/" },
+};
+---
+
+<BaseLayout
+  title="今日の8問｜第一種衛生管理者 無料実力チェック｜合格堂"
+  description="第一種衛生管理者の全題庫から選ばれた8問に無料で挑戦。正答だけでなく自信度も記録して、まぐれ正解を見つけます。"
+  noindex
+>
+  <Header compact />
+  <main id="main" class="practice-page">
+    <section class="practice-top shell">
+      <div><p class="eyebrow" data-mode-label>今日の学習</p><h1 data-session-title>全範囲から · 8問</h1></div>
+      <div class="practice-progress"><span data-progress-label>1 / 8</span><div><i data-progress-bar></i></div></div>
+      <a class="close-link" data-close href="/">中断する</a>
+    </section>
+
+    <article class="practice-card" data-practice>
+      <div class="practice-meta"><span data-number>問01</span><small data-meta>関係法令 · 基礎</small></div>
+      <h2 data-prompt></h2>
+      <div class="answer-options" data-choices></div>
+      <div class="confidence" data-confidence-wrap>
+        <span>この答えに自信は？</span>
+        <button type="button" data-confidence="high">自信あり</button>
+        <button type="button" data-confidence="medium">少し迷った</button>
+        <button type="button" data-confidence="low">ほぼ勘</button>
+      </div>
+      <section class="answer-explanation" data-feedback hidden>
+        <p class="result-label" data-result></p>
+        <h3 data-correct-answer></h3>
+        <p data-explanation></p>
+        <a class="source-box" data-source target="_blank" rel="noopener noreferrer"><span data-source-kind>確認した根拠</span><strong data-source-label></strong><small data-source-date>確認日 ↗</small></a>
+      </section>
+      <div class="practice-actions">
+        <button class="button primary" type="button" data-answer disabled>解答する</button>
+        <button class="button dark" type="button" data-next hidden>次の問題へ</button>
+      </div>
+    </article>
+
+    <section class="result-card" data-empty hidden>
+      <p class="eyebrow">復習する問題はありません</p>
+      <h2>よくできました</h2>
+      <p>このモードに該当する問題はありません。通常の8問に挑戦すると、結果に応じて自動で追加されます。</p>
+      <div class="hero-actions"><a class="button primary" data-practice-link href="/practice/">今日の8問を解く</a><a class="text-link" data-review-link href="/review/">復習メニューへ →</a></div>
+    </section>
+
+    <section class="result-card" data-summary hidden>
+      <p class="eyebrow"><span data-summary-total-label>8問</span>、おつかれさまでした</p>
+      <h2><span data-score>0</span> / <span data-summary-total>8</span> 正解</h2>
+      <p data-summary-copy></p>
+      <div class="summary-grid"><div><strong data-confident>0</strong><span>自信あり正解</span></div><div><strong data-lucky>0</strong><span>迷い・勘の正解</span></div><div><strong data-review>0</strong><span>復習する問題</span></div></div>
+      <div class="hero-actions"><button class="button primary" type="button" data-retry>もう一度挑戦</button><a class="button soft" data-review-link href="/review/">復習する</a><button class="text-link share-button" type="button" data-share>結果を共有 ↗</button></div>
+      <p class="share-status" data-share-status aria-live="polite"></p>
+    </section>
+  </main>
+  <script id="question-data" is:inline type="application/json" set:html={JSON.stringify(publicQuestionBanks)}></script>
+  <script id="exam-config" is:inline type="application/json" set:html={JSON.stringify(publicExamConfig)}></script>
+  <script>
+    import { addAttempts, addSession, questionIdsForMode, readLearning, type Confidence } from "../scripts/learning";
+
+    type PracticeQuestion = (typeof import("../data/questions"))["questions"][number];
+    const dataNode = document.getElementById("question-data");
+    const questionBanks = JSON.parse(dataNode?.textContent || "{}") as Record<string, PracticeQuestion[]>;
+    const examConfig = JSON.parse(document.getElementById("exam-config")?.textContent || "{}") as Record<string, { name: string; home: string }>;
+    const params = new URLSearchParams(location.search);
+    const examSlug = params.get("exam") === "kikenbutsu-otsu4" ? "kikenbutsu-otsu4" : "eisei-kanrisha";
+    const exam = examConfig[examSlug];
+    const allQuestions = questionBanks[examSlug] || [];
+    const mode = params.get("mode") || "daily";
+    const modeConfig: Record<string, { label: string; title: string }> = {
+      daily: { label: "今日の学習", title: "全範囲から · 8問" },
+      wrong: { label: "間違えた問題", title: "もう一度、解いてみる" },
+      uncertain: { label: "迷って正解", title: "あいまいを確信に変える" },
+      review: { label: "まとめて復習", title: "弱点だけを解き直す" },
+      official: { label: "令和8年4月公表", title: "最新の公表問題 · 44問" },
+    };
+    const reviewIds = questionIdsForMode(mode, readLearning(examSlug));
+    const dailySeed = Number(new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date()).replaceAll("-", ""));
+    const dailyOrder = (questionId: string) => {
+      let value = dailySeed ^ 0x811c9dc5;
+      for (const character of questionId) {
+        value = Math.imul(value ^ character.charCodeAt(0), 0x01000193);
+        value ^= value >>> 13;
+      }
+      return value >>> 0;
+    };
+    const dailyQuestions = [...allQuestions]
+      .map((question) => ({
+        question,
+        order: dailyOrder(question.id),
+      }))
+      .sort((a, b) => a.order - b.order)
+      .slice(0, 8)
+      .map(({ question }) => question);
+    const questionData = mode === "daily"
+      ? dailyQuestions
+      : mode === "official"
+        ? allQuestions.filter((question) => question.contentType === "公表問題" && question.officialSession === "令和8年4月公表")
+        : allQuestions.filter((question) => reviewIds.includes(question.id));
+    const letters = ["A", "B", "C", "D", "E"];
+    const root = document.querySelector<HTMLElement>("[data-practice]")!;
+    const summary = document.querySelector<HTMLElement>("[data-summary]")!;
+    const empty = document.querySelector<HTMLElement>("[data-empty]")!;
+    let index = 0;
+    let selected = -1;
+    let confidence: Confidence | "" = "";
+    let answers: { questionId: string; correct: boolean; confidence: Confidence; answeredAt: string }[] = [];
+
+    const el = <T extends HTMLElement = HTMLElement>(name: string) => document.querySelector<T>(`[data-${name}]`)!;
+    const config = modeConfig[mode] || modeConfig.daily;
+    document.title = `今日の8問｜${exam.name}｜合格堂`;
+    el("session-title").textContent = `${exam.name} · ${questionData.length}問`;
+    document.querySelector<HTMLAnchorElement>("[data-close]")!.href = exam.home;
+    const examQuery = examSlug === "kikenbutsu-otsu4" ? "?exam=kikenbutsu-otsu4" : "";
+    document.querySelectorAll<HTMLAnchorElement>("[data-practice-link]").forEach(link => link.href = `/practice/${examQuery}`);
+    document.querySelectorAll<HTMLAnchorElement>("[data-review-link]").forEach(link => link.href = `/review/${examQuery}`);
+    el("mode-label").textContent = config.label;
+    if (mode !== "daily") el("session-title").textContent = config.title;
+    el("summary-total").textContent = String(questionData.length);
+    el("summary-total-label").textContent = `${questionData.length}問`;
+    const render = () => {
+      const question = questionData[index];
+      selected = -1;
+      confidence = "";
+      el("progress-label").textContent = `${index + 1} / ${questionData.length}`;
+      el("progress-bar").style.width = `${((index + 1) / questionData.length) * 100}%`;
+      el("number").textContent = `問${String(question.number).padStart(2, "0")}`;
+      el("meta").textContent = `${question.subject} · ${question.difficulty}`;
+      el("prompt").textContent = question.prompt;
+      el("choices").innerHTML = question.choices.map((choice, choiceIndex) => `<button type="button" data-option="${choiceIndex}"><span>${letters[choiceIndex]}</span><em>${choice}</em></button>`).join("");
+      el("feedback").hidden = true;
+      el("confidence-wrap").hidden = false;
+      el("answer").hidden = false;
+      el<HTMLButtonElement>("answer").disabled = true;
+      el("next").hidden = true;
+      document.querySelectorAll<HTMLElement>("[data-confidence]").forEach((button) => button.classList.remove("selected"));
+      document.querySelectorAll<HTMLButtonElement>("[data-option]").forEach((button) => button.addEventListener("click", () => {
+        selected = Number(button.dataset.option);
+        document.querySelectorAll("[data-option]").forEach((item) => item.classList.toggle("selected", item === button));
+        el<HTMLButtonElement>("answer").disabled = !confidence;
+      }));
+    };
+
+    document.querySelectorAll<HTMLButtonElement>("[data-confidence]").forEach((button) => button.addEventListener("click", () => {
+      confidence = button.dataset.confidence as Confidence;
+      document.querySelectorAll("[data-confidence]").forEach((item) => item.classList.toggle("selected", item === button));
+      el<HTMLButtonElement>("answer").disabled = selected < 0;
+    }));
+
+    el("answer").addEventListener("click", () => {
+      const question = questionData[index];
+      const correct = selected === question.correctIndex;
+      if (!confidence) return;
+      const attempt = { questionId: question.id, correct, confidence, answeredAt: new Date().toISOString() };
+      answers.push(attempt);
+      addAttempts([attempt], examSlug);
+      document.querySelectorAll<HTMLButtonElement>("[data-option]").forEach((button, choiceIndex) => {
+        button.disabled = true;
+        if (choiceIndex === question.correctIndex) button.classList.add("correct");
+        if (choiceIndex === selected && !correct) button.classList.add("wrong");
+      });
+      el("result").textContent = correct ? "正解" : "もう一度確認";
+      el("result").classList.toggle("incorrect", !correct);
+      el("correct-answer").textContent = `${letters[question.correctIndex]} · ${question.choices[question.correctIndex]}`;
+      el("explanation").textContent = question.explanation;
+      el<HTMLAnchorElement>("source").href = question.sourceUrl;
+      el("source-kind").textContent = question.contentType === "公表問題" ? `${question.officialSession} · 公表問${question.officialQuestionNumber}` : "予想問題の確認根拠";
+      el("source-label").textContent = question.sourceLabel;
+      el("source-date").textContent = `${question.sourceCheckedAt.replaceAll("-", ".")} 確認 ↗`;
+      el("feedback").hidden = false;
+      el("confidence-wrap").hidden = true;
+      el("answer").hidden = true;
+      el("next").hidden = false;
+      el("next").textContent = index === questionData.length - 1 ? "結果を見る" : "次の問題へ";
+    });
+
+    const showSummary = () => {
+      root.hidden = true;
+      summary.hidden = false;
+      const score = answers.filter((answer) => answer.correct).length;
+      const confident = answers.filter((answer) => answer.correct && answer.confidence === "high").length;
+      const lucky = answers.filter((answer) => answer.correct && answer.confidence !== "high").length;
+      const review = answers.filter((answer) => !answer.correct || answer.confidence !== "high").length;
+      el("score").textContent = String(score);
+      el("confident").textContent = String(confident);
+      el("lucky").textContent = String(lucky);
+      el("review").textContent = String(review);
+      el("summary-copy").textContent = score >= 6 ? "基礎は順調です。迷って正解した問題を、次の復習候補に残しました。" : "まだ伸びしろがあります。解説を確認し、間違えた問題から固めましょう。";
+      addSession({ mode, score, total: questionData.length, completedAt: new Date().toISOString() }, examSlug);
+    };
+
+    el("next").addEventListener("click", () => {
+      if (index === questionData.length - 1) showSummary();
+      else { index += 1; render(); }
+    });
+
+    el("retry").addEventListener("click", () => {
+      index = 0;
+      answers = [];
+      summary.hidden = true;
+      root.hidden = false;
+      render();
+    });
+
+    el("share").addEventListener("click", async () => {
+      const score = answers.filter((answer) => answer.correct).length;
+      const shareData = { title: `合格堂｜${exam.name}`, text: `合格堂で${exam.name}に挑戦：${score}/${questionData.length}問正解`, url: `${location.origin}${exam.home}` };
+      try {
+        if (navigator.share) await navigator.share(shareData);
+        else { await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`); el("share-status").textContent = "結果とURLをコピーしました"; }
+      } catch (error) {
+        if ((error as DOMException).name !== "AbortError") el("share-status").textContent = "共有できませんでした";
+      }
+    });
+
+    if (questionData.length) render();
+    else { root.hidden = true; empty.hidden = false; el("progress-label").textContent = "0問"; el("progress-bar").style.width = "0%"; }
+  </script>
+</BaseLayout>

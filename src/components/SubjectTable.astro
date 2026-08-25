@@ -1,0 +1,15 @@
+---
+import { subjects } from "../data/questions";
+---
+
+<div class="subject-table">
+  {subjects.map((subject) => (
+    <div class="subject-row">
+      <div>
+        <strong>{subject.name}</strong>
+        <span class:list={["subject-status", { live: subject.status === "公開中" }]}>{subject.status}</span>
+      </div>
+      <b>{subject.count ? `${subject.count}問` : "—"}</b>
+    </div>
+  ))}
+</div>

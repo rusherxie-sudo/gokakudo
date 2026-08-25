@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { trustDocuments } from "../../data/trust";
+
+const document = trustDocuments.find((item) => item.slug === Astro.params.slug);
+if (!document) return new Response("Not Found", { status: 404 });
+---
+
+<BaseLayout title={`${document.title}｜合格堂`} description={document.lead}>
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><a href="/trust/">信頼性について</a><span>›</span><strong>{document.title}</strong></div>
+    <article class="policy-document shell">
+      <header><p class="eyebrow">合格堂の方針</p><h1>{document.title}</h1><p>{document.lead}</p><small>最終更新：{document.updated}</small></header>
+      <div class="policy-sections">
+        {document.sections.map((section) => (
+          <section><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}{section.links && <div class="policy-links">{section.links.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</div>}</section>
+        ))}
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import ShareButton from "../../../../components/ShareButton.astro";
+import { questions } from "../../../../data/questions";
+import { breadcrumbSchema } from "../../../../data/site";
+
+const question = questions.find((item) => item.id === Astro.params.id);
+if (!question) return new Response("Not Found", { status: 404 });
+const questionIndex = questions.findIndex((item) => item.id === question.id);
+const next = questions[(questionIndex + 1) % questions.length];
+const related = questions.filter((item) => item.id !== question.id && item.subject === question.subject).slice(0, 3);
+const letters = ["A", "B", "C", "D", "E"];
+const isReviewed = question.contentType === "予想問題";
+const structuredData = [
+  breadcrumbSchema([
+    { name: "合格堂", path: "/" },
+    { name: "第一種衛生管理者", path: "/exams/eisei-kanrisha/" },
+    { name: "問題一覧", path: "/exams/eisei-kanrisha/questions/" },
+    { name: `問${question.number}`, path: `/exams/eisei-kanrisha/questions/${question.id}/` },
+  ]),
+  ...(isReviewed ? [{
+    "@type": "LearningResource",
+    name: question.prompt,
+    learningResourceType: "Quiz",
+    educationalUse: "assessment",
+    teaches: question.subject,
+    inLanguage: "ja",
+    isAccessibleForFree: true,
+  }] : []),
+];
+---
+
+<BaseLayout
+  title={`第一種衛生管理者 ${question.contentType} 問${question.number}｜${question.subject}｜合格堂`}
+  description={`${question.prompt} 第一種衛生管理者の${question.contentType}。解答、解説、出典を確認できます。`}
+  noindex={!isReviewed}
+  structuredData={structuredData}
+>
+  <Header compact />
+  <main id="main" class="single-question-page">
+    <div class="breadcrumb question-breadcrumb shell"><a href="/exams/eisei-kanrisha/">第一種衛生管理者</a><span>›</span><a href="/exams/eisei-kanrisha/questions/">問題一覧</a><span>›</span><strong>{question.contentType} 問{question.number}</strong></div>
+    <article class="question-shell" data-single-question data-correct={question.correctIndex}>
+      <header class="question-header">
+        <div><span>問{String(question.number).padStart(2, "0")}</span><small>{question.subject} · {question.difficulty}</small></div>
+        <b>{question.contentType === "予想問題" ? "オリジナル予想問題" : `${question.officialSession} 公表問題`}</b>
+      </header>
+      <h1>{question.prompt}</h1>
+      <div class="answer-options">
+        {question.choices.map((choice, index) => (
+          <button type="button" data-choice={index}><span>{letters[index]}</span><em>{choice}</em></button>
+        ))}
+      </div>
+      <div class="single-actions"><button class="button primary" type="button" data-check disabled>解答する</button></div>
+      <section class="answer-explanation" data-explanation hidden>
+        <p class="result-label">正解は {letters[question.correctIndex]}</p>
+        <h2>{question.choices[question.correctIndex]}</h2>
+        <p>{question.explanation}</p>
+        <a class="source-box" href={question.sourceUrl} target="_blank" rel="noopener noreferrer"><span>確認した根拠</span><strong>{question.sourceLabel}</strong><small>{question.sourceCheckedAt.replaceAll("-", ".")} 確認 ↗</small></a>
+        <p class="editorial-note">編集：合格堂運営チーム · 最終確認 {question.sourceCheckedAt.replaceAll("-", ".")}</p>
+        <div class="question-end-actions"><a class="button dark" href={`/exams/eisei-kanrisha/questions/${next.id}/`}>次の問題へ</a><ShareButton label="この問題を共有" text={`第一種衛生管理者の${question.contentType}・問${question.number}に挑戦してみませんか。`} /></div>
+      </section>
+    </article>
+    {related.length > 0 && <nav class="related-questions shell" aria-label="関連する問題"><h2>同じ科目の関連問題</h2><div>{related.map((item) => <a href={`/exams/eisei-kanrisha/questions/${item.id}/`}><span>問{item.number}</span><strong>{item.prompt}</strong></a>)}</div><a class="text-link" href="/exams/eisei-kanrisha/questions/">第一種衛生管理者の問題一覧へ →</a></nav>}
+  </main>
+  <Footer />
+  <script>
+    const card = document.querySelector<HTMLElement>("[data-single-question]");
+    if (card) {
+      const choices = [...card.querySelectorAll<HTMLButtonElement>("[data-choice]")];
+      const check = card.querySelector<HTMLButtonElement>("[data-check]");
+      const explanation = card.querySelector<HTMLElement>("[data-explanation]");
+      const correct = Number(card.dataset.correct);
+      let selected = -1;
+      choices.forEach((choice) => choice.addEventListener("click", () => {
+        if (choice.disabled) return;
+        selected = Number(choice.dataset.choice);
+        choices.forEach((item) => item.classList.toggle("selected", item === choice));
+        if (check) check.disabled = false;
+      }));
+      check?.addEventListener("click", () => {
+        choices.forEach((choice, index) => {
+          choice.disabled = true;
+          if (index === correct) choice.classList.add("correct");
+          if (index === selected && selected !== correct) choice.classList.add("wrong");
+        });
+        check.hidden = true;
+        if (explanation) explanation.hidden = false;
+      });
+    }
+  </script>
+</BaseLayout>

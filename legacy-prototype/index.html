@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="合格堂は、資格試験の合格に必要な問題だけを毎日届ける学習サービスです。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317644f'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='38' fill='white'%3E%E5%90%88%3C/text%3E%3C/svg%3E">
+  <title>合格堂｜必要な問題だけで、合格へ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-active-view="home">
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <header class="site-header">
+    <button class="brand" type="button" data-action="home" aria-label="合格堂ホーム">
+      <span class="brand-mark">合</span>
+      <span class="brand-copy">
+        <strong>合格堂</strong>
+        <small>GOKAKUDO</small>
+      </span>
+    </button>
+
+    <nav class="site-nav" aria-label="メインナビゲーション">
+      <button type="button" data-action="catalog">資格を探す</button>
+      <button type="button" data-action="method">学び方</button>
+      <button class="nav-progress" type="button" data-action="dashboard">
+        <span>学習を続ける</span>
+        <strong>今日 0/15</strong>
+      </button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="view is-active" data-view="home" aria-labelledby="home-title">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">資格試験のための、毎日の学習案内</p>
+          <h1 id="home-title">
+            全部やらなくていい。<br>
+            <span>合格に必要な問題だけ。</span>
+          </h1>
+          <p class="hero-lead">試験日と今の実力から、今日やるべき問題を選びます。迷わず始めて、終わったら安心して閉じられます。</p>
+          <div class="hero-actions">
+            <button class="button button-primary" type="button" data-action="start-diagnostic">10問で現在地を測る</button>
+            <button class="text-link" type="button" data-action="catalog">受ける資格から探す <span>→</span></button>
+          </div>
+          <p class="microcopy">登録不要 · 約5分 · 途中保存できます</p>
+        </div>
+
+        <aside class="route-card" aria-label="合格までの学習ルート">
+          <div class="route-heading">
+            <span>あなたの合格ルート</span>
+            <strong>試験まで 28日</strong>
+          </div>
+          <ol class="route-list">
+            <li class="is-complete">
+              <span class="route-dot">✓</span>
+              <div><small>現在地を確認</small><strong>最初の10問</strong></div>
+              <em>5分</em>
+            </li>
+            <li class="is-current">
+              <span class="route-dot">今</span>
+              <div><small>今日やること</small><strong>関係法令を15問</strong></div>
+              <em>18分</em>
+            </li>
+            <li>
+              <span class="route-dot">3</span>
+              <div><small>今週の確認</small><strong>短い実力チェック</strong></div>
+              <em>10分</em>
+            </li>
+            <li>
+              <span class="route-dot">合</span>
+              <div><small>目標</small><strong>合格圏に到達</strong></div>
+              <em>+4点</em>
+            </li>
+          </ol>
+          <p class="route-note">今日は15問で終わり。やりすぎる必要はありません。</p>
+        </aside>
+      </div>
+
+      <section class="exam-finder" id="exam-finder" aria-labelledby="finder-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">資格を探す</p>
+            <h2 id="finder-title">目指す資格から始める</h2>
+          </div>
+          <p>資格が増えても迷わないように、名前・仕事・分野から探せます。</p>
+        </div>
+
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <span class="sr-only">資格名を検索</span>
+          <input id="exam-search" type="search" placeholder="例：登録販売者、危険物、ITパスポート">
+          <kbd>⌘ K</kbd>
+        </label>
+
+        <div class="category-tabs" role="tablist" aria-label="資格カテゴリ">
+          <button class="is-active" type="button" data-category="all" role="tab">すべて</button>
+          <button type="button" data-category="work" role="tab">仕事で必要</button>
+          <button type="button" data-category="health" role="tab">医療・衛生</button>
+          <button type="button" data-category="industry" role="tab">工業・安全</button>
+          <button type="button" data-category="transport" role="tab">運輸・物流</button>
+          <button type="button" data-category="office" role="tab">IT・事務</button>
+        </div>
+
+        <div class="exam-grid" id="exam-grid"></div>
+        <p class="empty-state" id="empty-state" hidden>該当する資格がありません。別の言葉で検索してください。</p>
+      </section>
+
+      <section class="principles" id="method" aria-labelledby="method-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">合格堂の学び方</p>
+            <h2 id="method-title">問題を解きながら、必要なことだけ覚える</h2>
+          </div>
+        </div>
+        <div class="principle-grid">
+          <article>
+            <span class="principle-symbol">十五</span>
+            <h3>今日の問題が決まる</h3>
+            <p>試験日、弱点、忘れやすさから、今やる価値が高い問題だけを選びます。</p>
+          </article>
+          <article>
+            <span class="principle-symbol">?</span>
+            <h3>まぐれ正解を見抜く</h3>
+            <p>答えと自信度を一緒に記録。偶然の正解を「習得済み」にしません。</p>
+          </article>
+          <article>
+            <span class="principle-symbol">+4</span>
+            <h3>あと何点か分かる</h3>
+            <p>正答率ではなく、本番の配点と足切り条件で現在地を示します。</p>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section class="view" data-view="exam" aria-labelledby="exam-title">
+      <div class="exam-detail-shell">
+        <button class="back-link" type="button" data-action="home">← 資格一覧へ</button>
+        <div class="exam-detail-hero">
+          <div>
+            <p class="eyebrow" id="exam-category">医療・衛生</p>
+            <h1 id="exam-title">第一種衛生管理者</h1>
+            <p id="exam-description">働く人の健康と安全を守る国家資格。関係法令・労働衛生・労働生理を、問題から効率よく身につけます。</p>
+            <button class="button button-primary" type="button" data-action="start-diagnostic">まず10問、無料で試す</button>
+          </div>
+          <dl class="exam-facts">
+            <div><dt>収録問題</dt><dd id="exam-question-count">422問</dd></div>
+            <div><dt>合格目安</dt><dd id="exam-pass-line">総合60%</dd></div>
+            <div><dt>診断時間</dt><dd>約5分</dd></div>
+          </dl>
+        </div>
+        <div class="exam-content-grid">
+          <article class="start-panel">
+            <p class="panel-kicker">はじめに</p>
+            <h2>今の実力を測る10問</h2>
+            <p>結果に合わせて、今日の問題と最初の7日間を組み立てます。</p>
+            <ul>
+              <li>登録なしで開始</li>
+              <li>科目別の弱点が分かる</li>
+              <li>合格までの不足点を表示</li>
+            </ul>
+            <button class="button button-dark" type="button" data-action="start-diagnostic">診断を始める</button>
+          </article>
+          <section class="topic-panel" aria-labelledby="topic-title">
+            <div class="panel-row">
+              <div><p class="panel-kicker">科目から学ぶ</p><h2 id="topic-title">出題範囲</h2></div>
+              <button class="text-link" type="button">過去問一覧 →</button>
+            </div>
+            <div class="topic-list" id="topic-list"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" data-view="diagnostic" aria-labelledby="question-title">
+      <div class="study-shell">
+        <div class="study-topbar">
+          <button class="brand compact" type="button" data-action="home" aria-label="合格堂ホーム">
+            <span class="brand-mark">合</span><span class="brand-copy"><strong>合格堂</strong></span>
+          </button>
+          <div class="study-progress" aria-label="診断進捗">
+            <span id="question-progress-label">診断 1 / 10</span>
+            <div><i id="question-progress-bar"></i></div>
+          </div>
+          <button class="close-button" type="button" data-action="exam">中断する</button>
+        </div>
+
+        <article class="question-card">
+          <p class="question-meta" id="question-meta">関係法令 · 基礎</p>
+          <h1 id="question-title">衛生管理者を選任しなければならない事業場について、正しいものはどれですか。</h1>
+          <div class="answer-list" id="answer-list">
+            <button type="button" data-answer="0"><span>A</span><em>常時10人以上の労働者を使用するすべての事業場</em></button>
+            <button type="button" data-answer="1"><span>B</span><em>常時50人以上の労働者を使用する一定の事業場</em></button>
+            <button type="button" data-answer="2"><span>C</span><em>常時100人以上の労働者を使用する製造業のみ</em></button>
+            <button type="button" data-answer="3"><span>D</span><em>有害業務を行う事業場のみ</em></button>
+          </div>
+
+          <div class="confidence-row" id="confidence-row">
+            <span>この答えに自信は？</span>
+            <button type="button" data-confidence="high">自信あり</button>
+            <button type="button" data-confidence="medium">少し迷った</button>
+            <button type="button" data-confidence="low">ほぼ勘</button>
+          </div>
+
+          <div class="explanation" id="explanation" hidden>
+            <p class="result-label">正解</p>
+            <h2>常時50人以上の労働者を使用する一定の事業場</h2>
+            <p>衛生管理者は、業種を問わず常時50人以上の労働者を使用する事業場で選任が必要です。選択肢Aは人数の基準、CとDは対象範囲が誤っています。</p>
+            <div class="source-note"><strong>根拠</strong><span>労働安全衛生法 第12条 · 2026年8月確認</span></div>
+          </div>
+
+          <div class="question-actions">
+            <button class="button button-primary" id="answer-button" type="button" disabled>回答する</button>
+            <button class="button button-dark" id="next-button" type="button" hidden>結果を見る</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" data-view="dashboard" aria-labelledby="dashboard-title">
+      <div class="dashboard-shell">
+        <div class="dashboard-header">
+          <button class="brand compact" type="button" data-action="home" aria-label="合格堂ホーム">
+            <span class="brand-mark">合</span><span class="brand-copy"><strong>合格堂</strong></span>
+          </button>
+          <div class="dashboard-date"><small>第一種衛生管理者</small><strong>試験まで 28日</strong></div>
+          <button class="avatar" type="button" aria-label="アカウント">J</button>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="today-panel">
+            <p class="eyebrow">8月23日 · 今日の学習</p>
+            <h1 id="dashboard-title">あと4点。<br>今日は関係法令を固めます。</h1>
+            <div class="today-task">
+              <div class="task-count"><strong>15</strong><span>問</span></div>
+              <div><strong>今日やる問題</strong><p>関係法令 8 · 復習 4 · 労働衛生 3</p></div>
+              <em>約18分</em>
+            </div>
+            <button class="button button-light" type="button" data-action="start-diagnostic">今日の15問を始める</button>
+            <p class="today-note">終わったら、今日は閉じて大丈夫です。</p>
+          </section>
+
+          <section class="score-panel">
+            <div class="panel-row"><div><p class="panel-kicker">現在地</p><h2>予測得点</h2></div><small>診断結果から算出</small></div>
+            <div class="score-line"><strong>23</strong><span>/ 44点</span><em>合格目安 27点</em></div>
+            <div class="score-track"><i style="width:52%"></i><b style="left:61%"></b></div>
+            <p>毎日20分なら、約24日で合格圏に入る見込みです。</p>
+          </section>
+
+          <section class="subjects-panel">
+            <div class="panel-row"><div><p class="panel-kicker">科目別</p><h2>足切りリスク</h2></div><button class="text-link" type="button">詳しく見る →</button></div>
+            <div class="subject-row"><span>関係法令</span><div><i style="width:43%"></i></div><strong class="risk-high">高</strong></div>
+            <div class="subject-row"><span>労働衛生</span><div><i style="width:71%"></i></div><strong>低</strong></div>
+            <div class="subject-row"><span>労働生理</span><div><i style="width:68%"></i></div><strong>低</strong></div>
+          </section>
+
+          <section class="week-panel">
+            <div class="panel-row"><div><p class="panel-kicker">今週</p><h2>無理のない予定</h2></div></div>
+            <div class="week-days">
+              <div class="is-done"><span>月</span><strong>✓</strong><small>15問</small></div>
+              <div class="is-done"><span>火</span><strong>✓</strong><small>15問</small></div>
+              <div class="is-today"><span>水</span><strong>15</strong><small>問</small></div>
+              <div><span>木</span><strong>復</strong><small>復習</small></div>
+              <div><span>金</span><strong>測</strong><small>確認</small></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><strong>合格堂</strong><span>過去問から、合格まで。</span></div>
+    <p>このサービスは各試験実施団体の公式サービスではありません。</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

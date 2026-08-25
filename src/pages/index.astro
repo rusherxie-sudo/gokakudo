@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { questions } from "../data/questions";
+import { otsu4Questions } from "../data/otsu4-questions";
+import { exams } from "../data/exams";
+---
+
+<BaseLayout
+  title="合格堂｜資格試験の無料問題集・毎日8問"
+  description="第一種衛生管理者と危険物乙4を無料で学べる資格試験問題集。公的資料に基づく解説と復習機能つきで、登録なしの今日の8問から始められます。"
+>
+  <Header />
+  <main id="main">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <p class="eyebrow">2資格 · {questions.length + otsu4Questions.length}問を無料公開</p>
+        <h1>全部やらなくていい。<br /><em>合格に必要な問題だけ。</em></h1>
+        <p class="lead">迷わず始めて、終わったら閉じられる。合格堂は、今日やるべき問題を8問に絞ります。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="/exams/">資格を選んで始める</a>
+          <a class="text-link" href="/practice/">衛生管理者の8問を解く →</a>
+        </div>
+        <p class="fine-print">登録不要 · 約6分 · すべて無料</p>
+      </div>
+
+      <aside class="home-exam-picker" aria-label="公開中の資格">
+        <div class="picker-head"><span>学ぶ資格を選ぶ</span><a href="/exams/">すべて見る →</a></div>
+        {exams.map((exam) => <a class:list={["picker-exam", `accent-${exam.accent}`]} href={`/exams/${exam.slug}/`}><b>{exam.accent === "orange" ? "乙4" : "衛"}</b><div><small>{exam.category}</small><strong>{exam.name}</strong><span>{exam.questionCount}問公開中</span></div><i>›</i></a>)}
+        <p>学習記録と復習対象は、資格ごとに分けて保存します。</p>
+      </aside>
+    </section>
+
+    <section class="trust-strip">
+      <div class="shell trust-grid">
+        <div><strong>{questions.length + otsu4Questions.length}</strong><span>公開中の問題</span></div>
+        <div><strong>2</strong><span>公開中の資格</span></div>
+        <div><strong>2026.08</strong><span>法令確認日</span></div>
+        <p>問題には、法令・試験実施団体などの根拠資料と確認日を表示します。</p>
+      </div>
+    </section>
+
+    <section class="section shell two-column">
+      <div>
+        <p class="eyebrow">公開中の資格</p>
+        <h2>仕事に近い資格から、<br />一つずつ増やします。</h2>
+        <p class="section-copy">第一種衛生管理者に加え、危険物乙4を公開しました。資格ごとに試験情報、題庫、復習、学習記録を用意しています。</p>
+        <a class="button dark" href="/exams/">資格一覧を見る</a>
+      </div>
+      <div class="mini-exam-list">{exams.map(exam => <a href={`/exams/${exam.slug}/`}><span class:list={[`accent-${exam.accent}`]}>{exam.accent === "orange" ? "乙4" : "衛"}</span><div><strong>{exam.name}</strong><small>{exam.questionCount}問 · 無料公開中</small></div><i>→</i></a>)}</div>
+    </section>
+
+    <section class="method-section" id="how-to">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">合格堂の学び方</p>
+          <h2>正解数だけで、分かったことにしない。</h2>
+        </div>
+        <div class="method-grid">
+          <article><span>8</span><h3>今日の量が決まる</h3><p>最初から大量の問題を見せません。短く終わる学習を毎日続けます。</p></article>
+          <article><span>?</span><h3>自信度も記録する</h3><p>答えと一緒に「自信あり・迷った・勘」を記録し、まぐれ正解を見抜きます。</p></article>
+          <article><span>根</span><h3>根拠まで確認する</h3><p>法令問題には確認した公的資料を表示。古い解説をそのまま残しません。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-cta shell">
+      <div><p class="eyebrow">6分で現在地を確認</p><h2>最初の8問を、今ここで。</h2></div>
+      <a class="button primary" href="/practice/">無料で始める</a>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

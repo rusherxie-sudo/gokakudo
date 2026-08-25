@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import SubjectTable from "../../../components/SubjectTable.astro";
+import ShareButton from "../../../components/ShareButton.astro";
+import { questions } from "../../../data/questions";
+import { breadcrumbSchema } from "../../../data/site";
+
+const breadcrumbs = breadcrumbSchema([
+  { name: "合格堂", path: "/" },
+  { name: "資格一覧", path: "/exams/" },
+  { name: "第一種衛生管理者", path: "/exams/eisei-kanrisha/" },
+]);
+const commonQuestions = [
+  { question: "第一種衛生管理者とは、どのような資格ですか？", answer: "常時50人以上の労働者を使用する事業場で選任が必要になる衛生管理者の国家資格です。第一種免許は、有害業務を含む業種でも衛生管理者として選任されるために使えます。" },
+  { question: "第一種衛生管理者試験は何問ですか？", answer: "本試験は五肢択一式の44問です。関係法令、労働衛生、労働生理から出題され、有害業務に係る範囲と、それ以外の範囲に分かれます。" },
+  { question: "合格基準は何点ですか？", answer: "総得点が60%以上であることに加え、科目・範囲ごとの得点がそれぞれ40%以上であることが必要です。総合点だけでは合格にならない点に注意が必要です。" },
+  { question: "受験料と試験日はどう確認しますか？", answer: "受験手数料は8,800円です。試験日は会場ごとに異なるため、安全衛生技術試験協会の会場別日程と最新の空席状況を申込前に確認してください。" },
+];
+const faqSchema = {
+  "@type": "FAQPage",
+  mainEntity: commonQuestions.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+};
+---
+
+<BaseLayout
+  title="第一種衛生管理者とは？試験科目・合格基準・無料問題｜合格堂"
+  description="第一種衛生管理者の試験科目、44問の出題構成、合格基準、受験料、申請方法を公式情報に基づいて整理。根拠資料つきの無料予想問題も解けます。"
+  structuredData={[breadcrumbs, faqSchema]}
+>
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><strong>第一種衛生管理者</strong></div>
+    <section class="exam-hero shell">
+      <div>
+        <p class="eyebrow">国家資格 · 医療・衛生</p>
+        <h1>第一種衛生管理者</h1>
+        <p>働く人の健康と安全を守るための国家資格。関係法令、労働衛生、労働生理を、問題から効率よく身につけます。</p>
+        <div class="hero-actions"><a class="button primary" href="/practice/">8問で実力を測る</a><a class="text-link" href="/exams/eisei-kanrisha/questions/">全52問を見る →</a><ShareButton variant="link" label="この試験を共有" text="第一種衛生管理者を無料で学べる合格堂を見つけました。" /></div>
+      </div>
+      <dl class="exam-facts">
+        <div><dt>公開中</dt><dd>{questions.length}問</dd></div>
+        <div><dt>公表問題</dt><dd>44問</dd></div>
+        <div><dt>更新</dt><dd>2026年8月</dd></div>
+      </dl>
+    </section>
+
+    <section class="exam-info-section">
+      <div class="shell">
+        <div class="section-heading exam-info-heading">
+          <div><p class="eyebrow">受験前に確認</p><h2>試験日・費用・会場</h2></div>
+          <p>試験日は会場ごとに異なり、空席状況も変わります。ここでは変わりにくい要点を整理し、最新状況は公式ページへつなぎます。</p>
+        </div>
+        <div class="exam-info-grid">
+          <article><small>次回試験</small><strong>会場ごとに随時実施</strong><p>2026年度は全国のセンター・東京試験場・大阪試験場などで複数日程があります。</p><a href="https://www.exam.or.jp/schedule/h_nittei502/" target="_blank" rel="noopener noreferrer">会場別の日程を見る ↗</a></article>
+          <article><small>受験手数料</small><strong>8,800円</strong><p>学科試験・非課税。支払い後の変更や取消には条件があります。</p><a href="https://www.exam.or.jp/h_tesuryo/" target="_blank" rel="noopener noreferrer">公式の手数料を見る ↗</a></article>
+          <article><small>申請方法</small><strong>オンライン / 書面</strong><p>衛生管理者試験はオンライン完結型申請に対応。受験資格の証明書類も確認しましょう。</p><a href="https://www.exam.or.jp/faq/" target="_blank" rel="noopener noreferrer">申請の注意事項を見る ↗</a></article>
+          <article><small>合格基準</small><strong>総合60% + 各40%</strong><p>総得点だけでなく、科目・範囲ごとの最低点を下回らないことが必要です。</p><a href="https://www.exam.or.jp/faq/" target="_blank" rel="noopener noreferrer">公式の合格基準を見る ↗</a></article>
+        </div>
+        <p class="verified-note">公益財団法人 安全衛生技術試験協会の公開情報をもとに、2026年8月23日確認。申込前に必ず公式の最新情報をご確認ください。</p>
+      </div>
+    </section>
+
+    <section class="section shell two-column exam-body">
+      <div>
+        <p class="eyebrow">科目別に学ぶ</p>
+        <h2>出題範囲と公開状況</h2>
+        <p class="section-copy">令和8年4月公表の全44問で5科目を公開し、関係法令にはオリジナル予想問題8問も追加しています。</p>
+      </div>
+      <SubjectTable />
+    </section>
+
+    <section class="guide-band">
+      <div class="shell guide-grid">
+        <article><small>01</small><h2>最初は8問</h2><p>今の理解度と迷い方を確認します。登録は必要ありません。</p></article>
+        <article><small>02</small><h2>根拠を読む</h2><p>正誤だけで終わらず、厚生労働省などの資料まで確認できます。</p></article>
+        <article><small>03</small><h2>弱点を残す</h2><p>回答結果はこの端末に保存。間違えた問題から復習できます。</p></article>
+      </div>
+    </section>
+
+    <section class="source-policy shell">
+      <div><p class="eyebrow">問題の出どころ</p><h2>ひとつの題庫で、出どころは明確に。</h2></div>
+      <div><p>日々の学習では公表問題と予想問題をまとめて出題します。一方、各問題には「公表問題」「予想問題」の区分と確認元を表示し、何を根拠にした問題か確認できるようにします。</p><a href="https://www.exam.or.jp/lckohyo/" target="_blank" rel="noopener noreferrer">公式の公表試験問題を見る ↗</a></div>
+    </section>
+    <section class="knowledge-guide shell" aria-labelledby="eisei-common-questions">
+      <div class="section-heading"><p class="eyebrow">よく確認される要点</p><h2 id="eisei-common-questions">第一種衛生管理者の基本</h2></div>
+      <div>{commonQuestions.map((item) => <article><h3>{item.question}</h3><p>{item.answer}</p></article>)}</div>
+      <p class="verified-note">試験制度は変更される場合があります。2026年8月23日時点の公式情報をもとに掲載しています。</p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

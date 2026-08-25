@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../../../../layouts/BaseLayout.astro";
+import Header from "../../../../../components/Header.astro";
+import Footer from "../../../../../components/Footer.astro";
+import { officialQuestionBatches } from "../../../../../data/questions";
+
+const batch = officialQuestionBatches.find((item) => item.batchId === Astro.params.batch);
+if (!batch) return new Response("Not Found", { status: 404 });
+---
+
+<BaseLayout title={`第一種衛生管理者 ${batch.session}の公表問題44問｜合格堂`} description={`第一種衛生管理者 ${batch.session}の公表問題${batch.questions.length}問。問題、選択肢、正答、確認元を掲載しています。詳細解説は確認中です。`} noindex>
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><a href="/exams/eisei-kanrisha/questions/">問題一覧</a><span>›</span><strong>{batch.session}</strong></div>
+    <section class="list-hero shell"><p class="eyebrow">第一種衛生管理者 · 公表問題</p><h1>{batch.session}<br />全{batch.questions.length}問</h1><p>過去問ドットコムの単題ページから、題目・選択肢・正答を収録しています。第三者による解説は収録していません。</p></section>
+    <section class="question-index shell"><div class="index-head"><h2>{batch.session}</h2><span>{batch.questions.length}問</span></div><div class="question-links">{batch.questions.map((question, index) => <a href={`/exams/eisei-kanrisha/questions/${question.id}/`} data-mobile-extra={index >= 10 ? "" : undefined}><span>問{String(question.number).padStart(2, "0")}</span><div><strong>{question.prompt}</strong><small>{question.subject} · 公表問題</small></div><i>→</i></a>)}</div>{batch.questions.length > 10 && <button class="mobile-show-more" type="button" data-show-all>残り{batch.questions.length - 10}問を表示</button>}</section>
+  </main>
+  <Footer />
+  <script>
+    document.querySelectorAll<HTMLButtonElement>("[data-show-all]").forEach((button) => button.addEventListener("click", () => {
+      button.previousElementSibling?.classList.add("show-all");
+      button.remove();
+    }));
+  </script>
+</BaseLayout>

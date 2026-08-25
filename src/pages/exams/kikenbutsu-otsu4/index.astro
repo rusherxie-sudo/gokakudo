@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import ShareButton from "../../../components/ShareButton.astro";
+import { otsu4Questions } from "../../../data/otsu4-questions";
+import { breadcrumbSchema } from "../../../data/site";
+
+const breadcrumbs = breadcrumbSchema([
+  { name: "合格堂", path: "/" },
+  { name: "資格一覧", path: "/exams/" },
+  { name: "危険物乙4", path: "/exams/kikenbutsu-otsu4/" },
+]);
+const commonQuestions = [
+  { question: "危険物取扱者乙種4類とは、どのような資格ですか？", answer: "ガソリン、灯油、軽油、アルコール類など、引火性液体に分類される第4類危険物を取り扱うための国家資格です。法令、基礎的な物理・化学、危険物の性質と消火方法を学びます。" },
+  { question: "危険物乙4の試験は何問で、試験時間はどのくらいですか？", answer: "五肢択一式の35問で、試験時間は2時間です。危険物に関する法令15問、基礎的な物理学・化学10問、危険物の性質・火災予防・消火10問で構成されます。" },
+  { question: "危険物乙4の合格基準は何点ですか？", answer: "3科目それぞれで60%以上の正答が必要です。総得点が60%以上でも、1科目でも60%を下回ると合格基準を満たしません。" },
+  { question: "受験料と試験日はどう確認しますか？", answer: "乙種の受験手数料は5,300円です。試験日は都道府県ごとに異なるため、消防試験研究センターの試験情報検索で受験地の最新日程を確認してください。" },
+];
+const faqSchema = {
+  "@type": "FAQPage",
+  mainEntity: commonQuestions.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+};
+---
+
+<BaseLayout title="危険物取扱者 乙種4類とは？試験科目・合格基準・無料問題｜合格堂" description="危険物取扱者乙種4類（乙4）の試験科目、35問の出題構成、受験料、合格基準を公式情報に基づいて整理。消防法から独自作成した無料問題も解けます。" structuredData={[breadcrumbs, faqSchema]}>
+  <Header />
+  <main id="main" class="otsu4-theme">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><a href="/exams/">資格一覧</a><span>›</span><strong>危険物乙4</strong></div>
+    <section class="exam-hero shell">
+      <div><p class="eyebrow">国家資格 · 設備・安全</p><h1>危険物取扱者<br />乙種4類</h1><p>ガソリン、灯油、軽油など、暮らしと仕事の近くにある引火性液体を安全に取り扱うための国家資格です。</p><div class="hero-actions"><a class="button primary otsu-button" href="/practice/?exam=kikenbutsu-otsu4">今日の8問を解く</a><a class="text-link" href="/exams/kikenbutsu-otsu4/questions/">全15問を見る →</a><ShareButton variant="link" label="この試験を共有" text="危険物乙4を無料で学べる合格堂を見つけました。" /></div></div>
+      <dl class="exam-facts otsu-facts"><div><dt>公開中</dt><dd>{otsu4Questions.length}問</dd></div><div><dt>本試験</dt><dd>35問</dd></div><div><dt>試験時間</dt><dd>2時間</dd></div></dl>
+    </section>
+    <section class="exam-info-section"><div class="shell">
+      <div class="section-heading exam-info-heading"><div><p class="eyebrow">受験前に確認</p><h2>日程・費用・合格基準</h2></div><p>試験日は都道府県ごとに設定され、乙4は地域によって複数回実施されます。申込前に受験地の最新日程を確認してください。</p></div>
+      <div class="exam-info-grid">
+        <article><small>試験日</small><strong>都道府県ごとに実施</strong><p>中央試験センターと各道府県支部で実施。全国の試験情報検索から確認できます。</p><a href="https://shinsei.shoubo-shiken.or.jp/shoubou_ia/iajs9001.do" target="_blank" rel="noopener noreferrer">最新日程を見る ↗</a></article>
+        <article><small>受験手数料</small><strong>5,300円</strong><p>乙種の試験手数料。非課税で、納入後は原則返金されません。</p><a href="https://www.shoubo-shiken.or.jp/kikenbutsu/annai/way.html" target="_blank" rel="noopener noreferrer">公式情報を見る ↗</a></article>
+        <article><small>出題形式</small><strong>五肢択一・35問</strong><p>法令15問、基礎物理・化学10問、性質・消火10問。試験時間は2時間です。</p><a href="https://www.shoubo-shiken.or.jp/kikenbutsu/annai/subject.html" target="_blank" rel="noopener noreferrer">科目と問題数を見る ↗</a></article>
+        <article><small>合格基準</small><strong>各科目60%以上</strong><p>総得点だけではなく、3科目それぞれで60%以上を取る必要があります。</p><a href="https://www.shoubo-shiken.or.jp/kikenbutsu/annai/way.html" target="_blank" rel="noopener noreferrer">合格基準を見る ↗</a></article>
+      </div><p class="verified-note">一般財団法人 消防試験研究センターの公開情報をもとに、2026年8月24日確認。</p>
+    </div></section>
+    <section class="section shell two-column exam-body"><div><p class="eyebrow">3科目を均等に</p><h2>総合点ではなく、<br />科目ごとに合格する。</h2><p class="section-copy">法令だけ高得点でも、物理・化学が60%未満なら不合格です。今日の8問も3科目から出題します。</p></div><div class="subject-table otsu-subjects"><div class="subject-row"><div><strong>危険物に関する法令</strong><span class="subject-status live">公開中</span></div><b>5問</b></div><div class="subject-row"><div><strong>基礎的な物理学・化学</strong><span class="subject-status live">公開中</span></div><b>5問</b></div><div class="subject-row"><div><strong>性質・火災予防・消火</strong><span class="subject-status live">公開中</span></div><b>5問</b></div></div></section>
+    <section class="source-policy shell"><div><p class="eyebrow">問題の出どころ</p><h2>公式問題は転載せず、法令から独自作成。</h2></div><div><p>消防試験研究センターが公開する過去問題は、著作権と二次利用条件を尊重して転載しません。合格堂では消防法、公式受験案内、公式出題範囲を確認し、問題文・選択肢・解説を独自に作成します。</p><a href="https://www.shoubo-shiken.or.jp/kikenbutsu/exercise.html" target="_blank" rel="noopener noreferrer">公式の公開問題と利用条件を見る ↗</a></div></section>
+    <section class="knowledge-guide shell" aria-labelledby="otsu4-common-questions"><div class="section-heading"><p class="eyebrow">よく確認される要点</p><h2 id="otsu4-common-questions">危険物乙4の基本</h2></div><div>{commonQuestions.map(item => <article><h3>{item.question}</h3><p>{item.answer}</p></article>)}</div><p class="verified-note">試験制度は変更される場合があります。2026年8月24日時点の公式情報をもとに掲載しています。</p></section>
+  </main><Footer />
+</BaseLayout>

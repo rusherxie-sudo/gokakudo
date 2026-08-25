@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import { otsu4Questions } from "../../../../data/otsu4-questions";
+import { breadcrumbSchema } from "../../../../data/site";
+const groups = ["危険物に関する法令", "基礎的な物理学・化学", "性質・火災予防・消火"];
+const breadcrumbs = breadcrumbSchema([
+  { name: "合格堂", path: "/" },
+  { name: "危険物乙4", path: "/exams/kikenbutsu-otsu4/" },
+  { name: "問題一覧", path: "/exams/kikenbutsu-otsu4/questions/" },
+]);
+---
+<BaseLayout title="危険物乙4の無料問題15問・解説｜合格堂" description="危険物取扱者乙種4類の無料オリジナル問題15問。法令、物理・化学、性質・消火を五肢択一で学び、独自解説と公的な根拠資料を確認できます。" structuredData={breadcrumbs}>
+  <Header /><main id="main" class="otsu4-theme"><div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><a href="/exams/kikenbutsu-otsu4/">危険物乙4</a><span>›</span><strong>問題一覧</strong></div>
+  <section class="list-hero shell"><p class="eyebrow">消防法・公式範囲から独自作成</p><h1>危険物乙4<br />無料問題15問</h1><p>3科目を各5問収録しています。今日の8問では、全題庫から日替わりで出題します。</p><div class="hero-actions"><a class="button primary otsu-button" href="/practice/?exam=kikenbutsu-otsu4">今日の8問を解く</a><a class="button soft" href="/exams/kikenbutsu-otsu4/">試験情報を見る</a></div></section>
+  <section class="question-index shell">{groups.map((group) => <div class="question-group"><div class="index-head"><h2>{group}</h2><span>5問</span></div><div class="question-links">{otsu4Questions.filter(q => q.subject === group).map(q => <a href={`/exams/kikenbutsu-otsu4/questions/${q.id}/`}><span>問{String(q.number).padStart(2,"0")}</span><div><strong>{q.prompt}</strong><small>オリジナル予想問題 · {q.difficulty} · 根拠資料つき</small></div><i>→</i></a>)}</div></div>)}</section>
+  </main><Footer />
+</BaseLayout>

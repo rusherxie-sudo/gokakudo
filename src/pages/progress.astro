@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { questions } from "../data/questions";
+---
+
+<BaseLayout title="学習記録｜資格試験の合格堂" description="正答率、習得状況、復習対象と合格目安までの距離を確認できます。" noindex>
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><strong>学習記録</strong></div>
+    <section class="dashboard-hero shell progress-heading">
+      <div><p class="eyebrow"><span data-exam-name>第一種衛生管理者</span> · 学習記録</p><h1>合格までの距離を、<br />少しずつ見える化。</h1></div>
+      <div class="estimate-card" data-estimate-card>
+        <small>現在の参考推定</small>
+        <strong data-estimate>判定準備中</strong>
+        <p data-estimate-copy>回答を重ねると、本試験換算の参考値を表示します。</p>
+      </div>
+    </section>
+    <section class="metric-grid shell">
+      <article><small>累計回答</small><strong data-attempts>0</strong><span>回答</span></article>
+      <article><small>学習セッション</small><strong data-sessions>0</strong><span>回</span></article>
+      <article><small>直近の正答率</small><strong data-accuracy>—</strong><span data-accuracy-unit></span></article>
+      <article><small>自信ありで正解</small><strong data-mastered>0</strong><span> / <i data-total-questions>{questions.length}</i>問</span></article>
+    </section>
+    <section class="progress-panel shell">
+      <div class="progress-copy">
+        <p class="eyebrow">診断の信頼度</p>
+        <h2 data-confidence-title>まずは8問を解いてみましょう</h2>
+        <p data-confidence-copy>現時点では学習記録がありません。正答だけでなく自信度も使って弱点を見つけます。</p>
+        <div class="confidence-meter"><i data-confidence-meter></i></div>
+        <small data-confidence-label>データなし</small>
+      </div>
+      <aside>
+        <strong>合格基準</strong>
+        <p data-pass-rule>総得点60%以上に加え、科目・範囲ごとに40%以上が必要です。</p>
+        <p class="caution" data-caution>現在の値は学習履歴から換算した参考値です。</p>
+        <a data-official-link href="https://www.exam.or.jp/faq/" target="_blank" rel="noopener noreferrer">公式の合格基準を確認 ↗</a>
+      </aside>
+    </section>
+    <section class="dashboard-actions shell"><a class="button primary" data-practice-link href="/practice/">今日の8問を解く</a><a class="button soft" data-review-link href="/review/">復習メニューを見る</a></section>
+  </main>
+  <Footer />
+  <script>
+    import { latestAttempts, readLearning } from "../scripts/learning";
+    const params = new URLSearchParams(location.search);
+    const examSlug = params.get("exam") === "kikenbutsu-otsu4" ? "kikenbutsu-otsu4" : "eisei-kanrisha";
+    const isOtsu4 = examSlug === "kikenbutsu-otsu4";
+    const examName = isOtsu4 ? "危険物乙4" : "第一種衛生管理者";
+    const bankTotal = isOtsu4 ? 15 : 52;
+    const examTotal = isOtsu4 ? 35 : 44;
+    const passMark = isOtsu4 ? 21 : 27;
+    const state = readLearning(examSlug);
+    document.querySelectorAll("[data-exam-name]").forEach(node => node.textContent = examName);
+    const totalNode = document.querySelector("[data-total-questions]"); if (totalNode) totalNode.textContent = String(bankTotal);
+    const query = isOtsu4 ? "?exam=kikenbutsu-otsu4" : "";
+    document.querySelector<HTMLAnchorElement>("[data-practice-link]")!.href = `/practice/${query}`;
+    document.querySelector<HTMLAnchorElement>("[data-review-link]")!.href = `/review/${query}`;
+    const passRule = document.querySelector("[data-pass-rule]"); if (passRule) passRule.textContent = isOtsu4 ? "法令・物理化学・性質消火の3科目それぞれで60%以上が必要です。" : "総得点60%以上に加え、科目・範囲ごとに40%以上が必要です。";
+    const caution = document.querySelector("[data-caution]"); if (caution) caution.textContent = isOtsu4 ? "3科目を公開中ですが、現在の値は15問の学習履歴から換算した参考値です。" : "現在の値は学習履歴から換算した参考値です。";
+    const officialLink = document.querySelector<HTMLAnchorElement>("[data-official-link]"); if (officialLink) officialLink.href = isOtsu4 ? "https://www.shoubo-shiken.or.jp/kikenbutsu/annai/way.html" : "https://www.exam.or.jp/faq/";
+    const latest = [...latestAttempts(state).values()];
+    const recent = state.attempts.slice(-24);
+    const accuracy = recent.length ? recent.filter((item) => item.correct).length / recent.length : 0;
+    const mastered = latest.filter((item) => item.correct && item.confidence === "high").length;
+    const set = (name: string, value: string | number) => { const node = document.querySelector(`[data-${name}]`); if (node) node.textContent = String(value); };
+    set("attempts", state.attempts.length);
+    set("sessions", state.sessions.length);
+    set("mastered", mastered);
+    if (recent.length) { set("accuracy", Math.round(accuracy * 100)); set("accuracy-unit", "%"); }
+
+    const confidenceScore = Math.min(100, Math.round((state.attempts.length / 24) * 65 + (latest.length / 8) * 35));
+    const meter = document.querySelector<HTMLElement>("[data-confidence-meter]");
+    if (meter) meter.style.width = `${confidenceScore}%`;
+    if (!state.attempts.length) {
+      set("confidence-label", "データなし");
+    } else if (state.attempts.length < 24 || latest.length < 8) {
+      set("confidence-title", `あと${Math.max(0, 24 - state.attempts.length)}回答で参考推定を開始`);
+      set("confidence-copy", `現在は${latest.length}/8問を診断済みです。複数回の回答から、偶然の正解をならして推定します。`);
+      set("confidence-label", `診断データ ${confidenceScore}%`);
+    } else {
+      const estimatedScore = Math.round(accuracy * examTotal);
+      const gap = passMark - estimatedScore;
+      set("estimate", `${estimatedScore} / ${examTotal}問`);
+      set("estimate-copy", gap > 0 ? `総合60%の目安まで、あと${gap}問です。` : "総合60%の目安に到達しています。科目別40%も確認しましょう。" );
+      set("confidence-title", "参考推定を表示しています");
+      set("confidence-copy", "直近24回答を44問に換算した値です。公開範囲が広がるほど診断の信頼度も上がります。");
+      set("confidence-label", `診断データ ${confidenceScore}% · 信頼度はまだ低め`);
+    }
+  </script>
+</BaseLayout>

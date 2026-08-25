@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+Astro.response.status = 404;
+---
+
+<BaseLayout title="ページが見つかりません｜合格堂" description="指定されたページは見つかりませんでした。" noindex>
+  <Header />
+  <main id="main" class="not-found shell"><p class="eyebrow">404</p><h1>この問題は、まだありません。</h1><p>URLが変わったか、公開前のページです。</p><a class="button primary" href="/">ホームへ戻る</a></main>
+  <Footer />
+</BaseLayout>

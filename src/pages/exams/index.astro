@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { exams } from "../../data/exams";
+---
+
+<BaseLayout title="資格試験一覧｜無料問題集の合格堂" description="合格堂で学べる資格試験の一覧。第一種衛生管理者と危険物取扱者乙種4類の無料問題に挑戦できます。">
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><strong>資格一覧</strong></div>
+    <section class="catalog-hero shell"><p class="eyebrow">資格を選ぶ</p><h1>次に取る資格を、<br />今日の8問から。</h1><p>登録なしですぐに開始できます。学習記録と復習対象は、資格ごとに分けて保存します。</p></section>
+    <section class="exam-catalog shell">
+      {exams.map((exam) => (
+        <a class:list={["exam-catalog-card", `accent-${exam.accent}`]} href={`/exams/${exam.slug}/`}>
+          <div><small>{exam.category}</small><b>{exam.accent === "orange" ? "乙4" : "衛"}</b></div>
+          <h2>{exam.name}</h2><p>{exam.description}</p>
+          <dl><div><dt>公開中</dt><dd>{exam.questionCount}問</dd></div><div><dt>本試験</dt><dd>{exam.examQuestionCount}問</dd></div></dl>
+          <span>この資格を学ぶ →</span>
+        </a>
+      ))}
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+

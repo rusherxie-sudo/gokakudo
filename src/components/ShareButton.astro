@@ -1,0 +1,39 @@
+---
+type Props = {
+  text: string;
+  url?: string;
+  label?: string;
+  variant?: "button" | "link";
+};
+const { text, url = Astro.url.toString(), label = "共有する", variant = "button" } = Astro.props;
+---
+
+<span class="share-control">
+  <button class:list={[variant === "button" ? "button soft" : "text-link share-button"]} type="button" data-share-control data-share-text={text} data-share-url={url}>{label} ↗</button>
+  <small data-share-message aria-live="polite"></small>
+</span>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-share-control]").forEach((button) => {
+    if (button.dataset.shareReady) return;
+    button.dataset.shareReady = "true";
+    button.addEventListener("click", async () => {
+      const container = button.closest<HTMLElement>(".share-control");
+      const message = container?.querySelector<HTMLElement>("[data-share-message]");
+      const data = {
+        title: document.title,
+        text: button.dataset.shareText || "合格堂で学習する",
+        url: button.dataset.shareUrl || location.href,
+      };
+      try {
+        if (navigator.share) await navigator.share(data);
+        else {
+          await navigator.clipboard.writeText(`${data.text} ${data.url}`);
+          if (message) message.textContent = "リンクをコピーしました";
+        }
+      } catch (error) {
+        if ((error as DOMException).name !== "AbortError" && message) message.textContent = "共有できませんでした";
+      }
+    });
+  });
+</script>

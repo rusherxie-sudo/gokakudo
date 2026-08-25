@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { trustDocuments } from "../../data/trust";
+---
+
+<BaseLayout title="信頼性について｜合格堂" description="合格堂の運営情報、編集・検証方針、情報源、訂正方針、プライバシーと利用条件を公開しています。">
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><strong>信頼性について</strong></div>
+    <section class="trust-hero shell"><p class="eyebrow">TRUST CENTER</p><h1>安心して学ぶために、<br />運営の考え方を公開します。</h1><p>問題がどこから来たのか、どのように確認するのか、学習データをどう扱うのか。合格堂の判断基準をまとめています。</p></section>
+    <section class="trust-index shell">
+      {trustDocuments.map((document, index) => (
+        <a href={`/trust/${document.slug}/`}><span>{String(index + 1).padStart(2, "0")}</span><div><h2>{document.title}</h2><p>{document.lead}</p></div><i>→</i></a>
+      ))}
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

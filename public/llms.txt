@@ -1,0 +1,14 @@
+# 合格堂
+> 第一種衛生管理者と危険物乙4を、根拠資料つきの無料問題で学べる資格試験学習サイトです。
+
+## 資格ガイド
+- [第一種衛生管理者](https://gokakudo-eisei.rusher-xie.workers.dev/exams/eisei-kanrisha/): 試験科目、費用、合格基準と無料問題
+- [危険物取扱者 乙種4類](https://gokakudo-eisei.rusher-xie.workers.dev/exams/kikenbutsu-otsu4/): 試験科目、費用、合格基準と無料問題
+
+## 編集方針
+- [信頼性について](https://gokakudo-eisei.rusher-xie.workers.dev/trust/): 運営、編集、情報源、訂正、プライバシーの方針
+
+## 利用条件
+- 公表問題と独自作成の予想問題を明確に区別します。
+- 法令、行政機関、試験実施団体などの一次資料を優先します。
+- 当サイトは試験実施団体の公式サービスではありません。

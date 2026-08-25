@@ -1,0 +1,61 @@
+---
+type Props = { compact?: boolean };
+const { compact = false } = Astro.props;
+const path = Astro.url.pathname;
+const requestedExam = Astro.url.searchParams.get("exam");
+const isOtsu4 = path.includes("kikenbutsu-otsu4") || requestedExam === "kikenbutsu-otsu4";
+const isEisei = path.includes("eisei-kanrisha") ||
+  (["/practice/", "/review/", "/progress/"].includes(path) && requestedExam !== "kikenbutsu-otsu4");
+const hasExamContext = isOtsu4 || isEisei;
+const examName = isOtsu4 ? "危険物乙4" : isEisei ? "第一種衛生管理者" : "資格を選ぶ";
+const examBase = isOtsu4 ? "/exams/kikenbutsu-otsu4" : isEisei ? "/exams/eisei-kanrisha" : "/exams";
+const practiceUrl = isOtsu4 ? "/practice/?exam=kikenbutsu-otsu4" : isEisei ? "/practice/" : "/exams/";
+const querySuffix = isOtsu4 ? "?exam=kikenbutsu-otsu4" : "";
+const questionsUrl = hasExamContext ? `${examBase}/questions/` : "/exams/";
+const reviewUrl = hasExamContext ? `/review/${querySuffix}` : "/exams/";
+const progressUrl = hasExamContext ? `/progress/${querySuffix}` : "/exams/";
+const active = (prefix: string) => prefix === "/" ? path === "/" : path.startsWith(prefix);
+---
+
+<header class:list={["site-header", { compact }]}> 
+  <a class="brand" href="/">
+    <span class="brand-mark">合</span>
+    <span><strong>合格堂</strong><small>GOKAKUDO</small></span>
+  </a>
+  {!compact && <a class="mobile-exam-chip" href={hasExamContext ? `${examBase}/` : "/exams/"}><span>{examName}</span><i>›</i></a>}
+  <nav class="desktop-nav" aria-label="メインナビゲーション">
+    <a href="/exams/">資格一覧</a>
+    {hasExamContext ? (
+      <>
+        <a href={`${examBase}/`}>試験ガイド</a>
+        <a href={questionsUrl}>問題一覧</a>
+        <a href={reviewUrl}>復習</a>
+        <a href={progressUrl}>学習記録</a>
+        <a class="nav-cta" href={practiceUrl}>今日の8問</a>
+      </>
+    ) : (
+      <>
+        <a href="/#how-to">学び方</a>
+        <a href="/trust/">信頼性</a>
+        <a class="nav-cta" href="/exams/">資格を選ぶ</a>
+      </>
+    )}
+  </nav>
+</header>
+{!compact && (
+  <nav class="mobile-tabbar" aria-label="モバイルナビゲーション">
+    <a href="/" aria-current={active("/") ? "page" : undefined}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3l8.5 7.5v9a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M9 21v-7h6v7"/></svg><span>ホーム</span>
+    </a>
+    <a href={questionsUrl} aria-current={(hasExamContext ? active(`${examBase}/questions`) : active("/exams")) ? "page" : undefined}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h11.5A2.5 2.5 0 0 1 19 7v13H7.5A2.5 2.5 0 0 1 5 17.5z"/><path d="M5 17.5A2.5 2.5 0 0 1 7.5 15H19M9 8h6M9 11h4"/></svg><span>{hasExamContext ? "問題" : "資格"}</span>
+    </a>
+    <a class="mobile-primary-action" href={practiceUrl}><b aria-hidden="true">{hasExamContext ? "8" : "選"}</b><span>{hasExamContext ? "今日の問題" : "資格を選ぶ"}</span></a>
+    <a href={reviewUrl} aria-current={active("/review") ? "page" : undefined}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M12 8v4l2.5 1.5"/></svg><span>復習</span>
+    </a>
+    <a href={progressUrl} aria-current={active("/progress") ? "page" : undefined}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>記録</span>
+    </a>
+  </nav>
+)}

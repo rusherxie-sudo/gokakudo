@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f2f7f4"/>
+  <rect x="72" y="66" width="70" height="70" rx="18" fill="#14614f"/>
+  <text x="107" y="116" text-anchor="middle" font-family="serif" font-size="42" font-weight="700" fill="#ffffff">合</text>
+  <text x="166" y="105" font-family="serif" font-size="38" font-weight="700" fill="#0b2f2a">合格堂</text>
+  <text x="168" y="132" font-family="sans-serif" font-size="14" font-weight="700" fill="#647770">GOKAKUDO</text>
+  <text x="72" y="270" font-family="serif" font-size="72" font-weight="700" fill="#0b2f2a">合格に必要な問題だけ。</text>
+  <text x="72" y="352" font-family="serif" font-size="72" font-weight="700" fill="#14614f">毎日8問から始める。</text>
+  <text x="76" y="430" font-family="sans-serif" font-size="27" fill="#647770">第一種衛生管理者・危険物乙4の無料問題集</text>
+  <rect x="72" y="492" width="380" height="70" rx="14" fill="#0b2f2a"/>
+  <text x="262" y="538" text-anchor="middle" font-family="sans-serif" font-size="25" font-weight="700" fill="#ffffff">登録不要・根拠資料つき</text>
+  <circle cx="1030" cy="153" r="72" fill="#f0c85a"/>
+  <text x="1030" y="174" text-anchor="middle" font-family="serif" font-size="66" font-weight="700" fill="#0b2f2a">8</text>
+  <text x="1030" y="256" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#14614f">今日の問題</text>
+</svg>
