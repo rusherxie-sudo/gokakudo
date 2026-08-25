@@ -26,11 +26,21 @@ If a source is unavailable, record the failure and continue with the remaining e
 - Never claim human review, professional review, official affiliation, credentials, pass guarantees, or facts that cannot be verified.
 - A question with unresolved answer conflicts must not be published. Imported question sets must pass count, numbering, answer-range, choice-count, duplicate, and subject-distribution checks when those constraints are known.
 - Launching a qualification with one official session is only the starting point, never the completion criterion. After launch, keep it in the active backfill queue and ingest discoverable official sessions from newest to oldest until at least 90% of the reasonably obtainable official archive is covered or all sources are exhausted.
-- Track each qualification's discoverable sessions, imported sessions, published questions, unresolved conflicts, latest covered session, oldest covered session, and coverage percentage in `docs/question-coverage.md`. Update it in every question-import run.
-- When a new official session appears, acquire, validate, and publish it within 72 hours when the source is accessible. Do not wait for the normal historical-backfill cadence.
+- Track each qualification's discoverable sessions, imported sessions, published questions, index-eligible question pages, unresolved conflicts, latest covered session, oldest covered session, and archive coverage percentage in `docs/question-coverage.md`. Update it in every question-import run.
+- When a new official session appears, acquire and validate it within 72 hours when the source is accessible. It may enter the practice product immediately, but search indexing follows the rollout gates below.
 - Allocate normal weekly execution capacity approximately 60% to official-question backfill, 25% to ranking/CTR/content improvements, and 15% to researching or launching new qualifications. Urgent indexing, correctness, or production incidents may override this split.
-- Each weekly cycle should complete at least one full official session for the highest-priority incomplete qualification when a valid source is available. Do not replace archive backfill with prediction questions merely because original questions are easier to create.
+- Backfill frequency is adaptive. Continue acquiring complete sessions when valid sources exist, but do not force a weekly public index expansion when prior releases have not earned healthy crawl, index, or impression signals. Do not replace archive backfill with prediction questions merely because original questions are easier to create.
 - Prefer expanding existing pages that already have impressions before creating unrelated pages, while still honoring the official-question backfill allocation. Launch a new qualification only when keyword demand, SERP feasibility, source availability, and a useful initial content set are all demonstrated.
+
+## Question Index Rollout
+
+- Separate archive completeness from Google index growth. Questions may be stored, validated, and available in practice mode without making every single-question URL indexable.
+- New imported official single-question pages default to `noindex,follow` and stay out of the sitemap. Qualification hubs, subject hubs, and useful session pages carry the initial search demand.
+- Promote single-question pages to index only when they have independent search intent or enough unique value, such as a verified explanation, misconception analysis, primary-source context, related concepts, and meaningful internal links.
+- Release indexable question pages in controlled waves. Choose the wave size from current site authority and GSC evidence; for a young site, normally start with 10-30 pages rather than an entire archive.
+- Before the next wave, review at least the previous 14 complete days when available. Prefer continuing only when the prior wave shows healthy discovery/indexing, no material rise in `Crawled - currently not indexed` or duplicate/canonical exclusions, and at least 70% of submitted high-value URLs are indexed. If the indexed share is below 50% or quality exclusions rise, pause expansion and improve, consolidate, or remove weak pages.
+- When GSC data is unavailable or too sparse, use the conservative path: keep question pages noindex, index the richer hub/session pages, and avoid large sitemap growth.
+- The sitemap must contain only canonical URLs intentionally eligible for indexing. Do not submit noindex question pages through GSC or IndexNow.
 
 ## Search Quality Boundaries
 
