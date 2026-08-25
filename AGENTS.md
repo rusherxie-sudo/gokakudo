@@ -25,7 +25,12 @@ If a source is unavailable, record the failure and continue with the remaining e
 - There is no human sampling step. The agent owns automated validation, multi-source conflict checks, source/date recording, build verification, and the publish decision.
 - Never claim human review, professional review, official affiliation, credentials, pass guarantees, or facts that cannot be verified.
 - A question with unresolved answer conflicts must not be published. Imported question sets must pass count, numbering, answer-range, choice-count, duplicate, and subject-distribution checks when those constraints are known.
-- Prefer expanding existing pages that already have impressions before creating unrelated pages. Launch a new qualification only when keyword demand, SERP feasibility, source availability, and a useful initial content set are all demonstrated.
+- Launching a qualification with one official session is only the starting point, never the completion criterion. After launch, keep it in the active backfill queue and ingest discoverable official sessions from newest to oldest until at least 90% of the reasonably obtainable official archive is covered or all sources are exhausted.
+- Track each qualification's discoverable sessions, imported sessions, published questions, unresolved conflicts, latest covered session, oldest covered session, and coverage percentage in `docs/question-coverage.md`. Update it in every question-import run.
+- When a new official session appears, acquire, validate, and publish it within 72 hours when the source is accessible. Do not wait for the normal historical-backfill cadence.
+- Allocate normal weekly execution capacity approximately 60% to official-question backfill, 25% to ranking/CTR/content improvements, and 15% to researching or launching new qualifications. Urgent indexing, correctness, or production incidents may override this split.
+- Each weekly cycle should complete at least one full official session for the highest-priority incomplete qualification when a valid source is available. Do not replace archive backfill with prediction questions merely because original questions are easier to create.
+- Prefer expanding existing pages that already have impressions before creating unrelated pages, while still honoring the official-question backfill allocation. Launch a new qualification only when keyword demand, SERP feasibility, source availability, and a useful initial content set are all demonstrated.
 
 ## Search Quality Boundaries
 
