@@ -2,10 +2,16 @@ import { defineMiddleware } from "astro:middleware";
 import { SITE_URL } from "./data/site";
 
 const productionOrigin = new URL(SITE_URL);
+const workersDevHost = "gokakudo-eisei.rusher-xie.workers.dev";
 
 export const onRequest = defineMiddleware(async ({ request }, next) => {
   const requestUrl = new URL(request.url);
   const isLocal = requestUrl.hostname === "localhost" || requestUrl.hostname === "127.0.0.1";
+
+  if (!isLocal && requestUrl.hostname === workersDevHost) {
+    const destination = new URL(`${requestUrl.pathname}${requestUrl.search}`, productionOrigin);
+    return Response.redirect(destination.toString(), 301);
+  }
 
   if (!isLocal && requestUrl.protocol !== "https:") {
     const destination = new URL(`${requestUrl.pathname}${requestUrl.search}`, productionOrigin);

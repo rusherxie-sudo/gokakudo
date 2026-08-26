@@ -10,6 +10,15 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Topic: qualification examinations and practice questions
 - Baseline status: establish from the first complete GSC data pull; compare the latest complete 28 days with the preceding 28 days.
 
+### 2026-08-26 (domain fix)
+
+- Issue: the operator confirmed `gokakudo.com` is the production custom domain (Cloudflare DNS + HTTPS serving the Worker), but the code had hardcoded `https://gokakudo-eisei.rusher-xie.workers.dev` as `SITE_URL` since the initial baseline commit. As a result canonical, sitemap, robots, OG URLs, and the http→https redirect all pointed to the workers.dev subdomain.
+- Fix: switched `SITE_URL` and Astro `site` to `https://gokakudo.com`, updated `public/llms.txt`, and added a 301 host redirect from `gokakudo-eisei.rusher-xie.workers.dev` → `gokakudo.com` (same path/query) in `src/middleware.ts` so search engines consolidate on the custom domain.
+- Changed URLs: every canonical/sitemap/robots/OG URL (site-wide); no route structure changed.
+- Traffic lever: coverage/index hygiene (single canonical host; avoids duplicate-host splitting of the GSC property).
+- Verification: `npm run build`, `git diff --check`, local preview confirmed canonical/sitemap/robots point to gokakudo.com; full mobile/desktop render check passed. Production verified after deploy on both hosts (see deployment note).
+- Deployment: see the deploy record below.
+
 ## Run Template
 
 ### YYYY-MM-DD
