@@ -56,6 +56,14 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Verification: `npm run build`, `git diff --check`, 28 mobile/desktop render checks (incl. practice `?exam=daini-eisei-kanrisha`) all pass; canonical on gokakudo.com; official answers 30/30 vs official PDF.
 - Deployment: `202c97a` → `npm run deploy`; Cloudflare Worker version `53ed2026-3d1d-4480-bd9b-1f9d90b745fe`. Production verified: home shows 3資格・273問; hub/questions/single/session/practice all 200 with gokakudo.com canonicals; sitemap 293 (33 daini entries); workers.dev 301 intact.
 
+### 2026-08-26 (Baidu Tongji)
+
+- Operator provided the Baidu Tongji HM ID (`df7068d032a103541eda262dd590f61d`); injected the tracking snippet into `BaseLayout.astro` (loaded on idle alongside GA4), allowed `hm.baidu.com` in CSP `script-src`/`connect-src`/`img-src` so the beacon is not blocked, and updated the privacy page to reflect that Baidu Analytics is in use (previously marked as discontinued).
+- Changed URLs: all pages (tracking snippet); `/trust/privacy/` (policy text).
+- Traffic lever: measurement (supporting data source; no ranking lever).
+- Verification: `npm run build`, `git diff --check`, 30 mobile/desktop render checks with no console errors (CSP clean); production confirmed snippet, CSP, and privacy text.
+- Deployment: `b743282` → `npm run deploy`; Cloudflare Worker version `31019a55-24d3-4374-abb9-e92d0b29f0c6`.
+
 ## Run Template
 
 ### YYYY-MM-DD
