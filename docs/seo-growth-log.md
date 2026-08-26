@@ -44,7 +44,7 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Changed URLs: 190 additional single-question pages (`official-20054-q31` onward, all sessions).
 - Traffic lever: coverage (indexable question-page archive).
 - Verification: `npm run build`, `git diff --check`, sitemap 260 (220 official), spot-checked `official-20054-q31` and `official-20050-q44` now `index,follow`, full mobile/desktop render check passed.
-- Deployment: `npm run deploy`; Worker version recorded below after production verification.
+- Deployment: `9b42958` → `npm run deploy`; Cloudflare Worker version `b39c9b15-9b99-4fb0-809a-e2f0f2c1f99e`. Production verified: sitemap 260 URLs (220 official), spot pages `index,follow`, gokakudo.com canonical, workers.dev 301 intact.
 
 ## Run Template
 
