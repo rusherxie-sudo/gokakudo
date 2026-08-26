@@ -28,6 +28,15 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Verification: `npm run build`, `git diff --check`, local sitemap count = 40 with 5 session URLs, session pages carry `index,follow`, full mobile/desktop render check passed.
 - Deployment: `npm run deploy`; Worker version recorded below after production verification.
 
+### 2026-08-26 (question-page wave)
+
+- Operator requested that some question pages enter the sitemap while the site is small. Released a controlled wave: newest session (`令和8年4月公表`) questions 1–30 become `index,follow` and are added to the sitemap via `INDEXED_OFFICIAL_WAVE_LIMIT = 30` in `src/data/questions.ts`. Sitemap is now 70 URLs (35 base + 5 session + 30 wave).
+- Official single-question pages outside the wave (190) remain `noindex,follow` and outside the sitemap. Next-wave trigger: GSC evidence (healthy discovery/indexing, ≥70% of submitted URLs indexed) plus verified explanations on wave pages.
+- Changed URLs: 30 single-question pages (`/exams/eisei-kanrisha/questions/official-20054-q01/`…`q30/`).
+- Traffic lever: coverage (indexable single-question pages).
+- Verification: `npm run build`, `git diff --check`, sitemap count 70, wave pages `index,follow`, Q31+ `noindex,follow`, full mobile/desktop render check passed.
+- Deployment: `npm run deploy`; Worker version recorded below after production verification.
+
 ## Run Template
 
 ### YYYY-MM-DD
