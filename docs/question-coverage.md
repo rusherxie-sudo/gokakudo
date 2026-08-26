@@ -14,7 +14,7 @@ This file is the inventory control plane for official-question acquisition. Upda
 
 | Qualification | Discoverable sessions | Imported sessions | Usable official questions | Index-eligible single pages | Archive coverage | Backlog | Status |
 |---|---:|---:|---:|---:|---:|---:|---|
-| 第一種衛生管理者 | 24 | 5 | 220 | 0 | 20.8% | 19 sessions / ~834 questions (20049+ need old-format importer) | Active backfill; index rollout paused pending unique explanations and GSC evidence |
+| 第一種衛生管理者 | 24 | 5 | 220 | 0 | 20.8% | 19 sessions / ~834 questions (20049+ need old-format importer) | Active backfill; imported session pages indexable; single-question pages stay noindex |
 | 危険物取扱者 乙種4類 | Discovery pending | 0 | 0 | 0 | Pending | Determine competitor and official archives | Discovery required |
 
 ## Update Log
@@ -37,3 +37,8 @@ This file is the inventory control plane for official-question acquisition. Upda
 - kakomonn.com returned HTTP 429 (IP-level rate limit) mid-queue on 2026-08-26; importer now runs at gentler pacing (`GOKAKUDO_MAX_BATCHES`, configurable concurrency and spacing) to avoid re-triggering the block.
 - `令和5年10月公表` (20049) uses an older kakomonn page format: the list page exposes 42 question links (not 44) and question titles use a different metadata layout (`科目 問N` without parentheses). It was rejected by validation rather than force-imported. A format-adapted importer plus official-PDF cross-check is required for 20049 and likely for all older sessions (20048 and earlier).
 - Index eligibility unchanged: official single-question pages remain `noindex,follow` and outside the sitemap; session pages remain `noindex` until they gain explanations and GSC data supports a wave.
+
+### 2026-08-26 (sitemap follow-up)
+
+- Imported session pages (`/exams/eisei-kanrisha/questions/session/{20054..20050}/`) switched from `noindex,follow` to `index,follow` and added to the sitemap, per the "useful session pages carry initial search demand" rule. Sitemap grew from 35 to 40 URLs and will grow as backfill continues.
+- Official single-question pages remain `noindex,follow` and outside the sitemap until they carry verified explanations and GSC evidence supports a wave.

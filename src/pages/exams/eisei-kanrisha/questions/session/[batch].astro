@@ -12,7 +12,7 @@ const distribution = Object.entries(batch.questions.reduce<Record<string, number
 }, {})).map(([subject, count]) => ({ subject, count }));
 ---
 
-<BaseLayout title={`第一種衛生管理者 ${batch.session}の公表問題${batch.questions.length}問｜合格堂`} description={`第一種衛生管理者 ${batch.session}の公表問題${batch.questions.length}問と科目別出題数。問題、選択肢、正答、確認元を掲載しています。詳細解説は確認中です。`} noindex>
+<BaseLayout title={`第一種衛生管理者 ${batch.session}の公表問題${batch.questions.length}問｜合格堂`} description={`第一種衛生管理者 ${batch.session}の公表問題${batch.questions.length}問と科目別出題数。問題、選択肢、正答、確認元を掲載しています。詳細解説は確認中です。`}>
   <Header />
   <main id="main">
     <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><a href="/exams/eisei-kanrisha/questions/">問題一覧</a><span>›</span><strong>{batch.session}</strong></div>

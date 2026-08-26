@@ -19,6 +19,15 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Verification: `npm run build`, `git diff --check`, local preview confirmed canonical/sitemap/robots point to gokakudo.com; full mobile/desktop render check passed. Production verified after deploy on both hosts (see deployment note).
 - Deployment: `5c820b4` → `npm run deploy`; Cloudflare Worker version `2d55cc93-bde1-4435-abe5-d1aac8addae9`. Production verified: `https://gokakudo.com/` 200 with canonical/OG/sitemap/robots on gokakudo.com; `http://gokakudo.com` 308 → `https://gokakudo.com`; `https://gokakudo-eisei.rusher-xie.workers.dev/*` 301 → same path on gokakudo.com.
 
+### 2026-08-26 (sitemap follow-up)
+
+- User asked why the sitemap had 35 URLs instead of 80+. Verified against git history: the sitemap has contained exactly 35 URLs since the initial baseline commit (7 navigation + 5 trust + 8 eisei prediction + 15 otsu4 original); official single-question pages were never in the sitemap (they are `noindex` per the index-rollout policy).
+- Action: imported session pages are useful archive pages and were incorrectly left `noindex` in this run. Switched the 5 session pages to `index,follow` and added them to the sitemap (`/exams/eisei-kanrisha/questions/session/{20054..20050}/`). Sitemap is now 40 URLs and will grow to 59+ as backfill completes; official single-question pages stay `noindex` until they gain verified explanations and GSC evidence.
+- Changed URLs: 5 session pages (indexing status + sitemap entries).
+- Traffic lever: coverage (indexable archive hubs).
+- Verification: `npm run build`, `git diff --check`, local sitemap count = 40 with 5 session URLs, session pages carry `index,follow`, full mobile/desktop render check passed.
+- Deployment: `npm run deploy`; Worker version recorded below after production verification.
+
 ## Run Template
 
 ### YYYY-MM-DD
