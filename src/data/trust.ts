@@ -49,7 +49,7 @@ export const trustDocuments: TrustDocument[] = [
     sections: [
       { heading: "保存する情報", paragraphs: ["回答した問題、正誤、自信度、回答日時、練習結果をブラウザのローカルストレージに保存します。現在、アカウント登録や氏名・メールアドレスの入力は必要ありません。"] },
       { heading: "削除方法", paragraphs: ["ブラウザのサイトデータを削除すると学習履歴も削除されます。別の端末やブラウザには自動的に引き継がれません。"] },
-      { heading: "アクセス解析", paragraphs: ["サービス改善のためGoogle Analytics 4を利用します。Google AnalyticsはCookieなどを用いて閲覧ページ、端末・ブラウザ情報、概算地域、参照元などを処理する場合があります。氏名やメールアドレスを合格堂から送信する設定にはしていません。", "ブラウザのCookie制限またはGoogle Analyticsオプトアウトアドオンにより計測を制限できます。百度統計は2026年8月25日に利用を停止しました。"] , links: [{ label: "Googleのプライバシーポリシー", url: "https://policies.google.com/privacy" }, { label: "Google Analyticsオプトアウト", url: "https://tools.google.com/dlpage/gaoptout" }] },
+      { heading: "アクセス解析", paragraphs: ["サービス改善のためGoogle Analytics 4と百度統計（Baidu Analytics）を利用します。いずれもCookieやJavaScriptを用いて閲覧ページ、端末・ブラウザ情報、概算地域、参照元などを処理する場合があります。氏名やメールアドレスを合格堂から送信する設定にはしていません。", "ブラウザのCookie制限や広告ブロッカーにより計測を制限できます。百度統計は主に中国大陸からのアクセス把握を目的として利用しています。"] , links: [{ label: "Googleのプライバシーポリシー", url: "https://policies.google.com/privacy" }, { label: "Google Analyticsオプトアウト", url: "https://tools.google.com/dlpage/gaoptout" }] },
       { heading: "配信基盤と外部リンク", paragraphs: ["配信とセキュリティの基盤としてCloudflareを利用しています。公式資料への外部リンクを開いた場合は、リンク先のプライバシーポリシーが適用されます。"] },
     ],
   },

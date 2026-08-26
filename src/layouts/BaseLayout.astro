@@ -75,6 +75,13 @@ const schemaGraph = {
           script.async = true;
           script.src = "https://www.googletagmanager.com/gtag/js?id=G-0PSMT5NP01";
           document.head.appendChild(script);
+          var _hmt = _hmt || [];
+          (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?df7068d032a103541eda262dd590f61d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+          })();
         };
         if ("requestIdleCallback" in window) window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
         else setTimeout(loadAnalytics, 1500);
