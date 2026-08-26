@@ -35,7 +35,7 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Changed URLs: 30 single-question pages (`/exams/eisei-kanrisha/questions/official-20054-q01/`…`q30/`).
 - Traffic lever: coverage (indexable single-question pages).
 - Verification: `npm run build`, `git diff --check`, sitemap count 70, wave pages `index,follow`, Q31+ `noindex,follow`, full mobile/desktop render check passed.
-- Deployment: `npm run deploy`; Worker version recorded below after production verification.
+- Deployment: `cad2508` → `npm run deploy`; Cloudflare Worker version `6d4b4b4e-dad1-4698-8828-efdbc5d01d4c`. Production verified: sitemap 70 URLs (30 wave pages), wave page `index,follow` with gokakudo.com canonical, Q31+ `noindex,follow`, session pages `index,follow`, workers.dev 301 intact.
 
 ## Run Template
 
