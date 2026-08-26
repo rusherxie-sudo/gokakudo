@@ -14,7 +14,7 @@ This file is the inventory control plane for official-question acquisition. Upda
 
 | Qualification | Discoverable sessions | Imported sessions | Usable official questions | Index-eligible single pages | Archive coverage | Backlog | Status |
 |---|---:|---:|---:|---:|---:|---:|---|
-| 第一種衛生管理者 | 24 | 5 | 220 | 30 | 20.8% | 19 sessions / ~834 questions (20049+ need old-format importer) | Active backfill; session pages + newest-session wave (Q1–Q30) indexable; remaining single pages noindex |
+| 第一種衛生管理者 | 24 | 5 | 220 | 220 | 20.8% | 19 sessions / ~834 questions (20049+ need old-format importer) | Active backfill; all imported single-question pages indexable; monitor GSC before further expansion |
 | 危険物取扱者 乙種4類 | Discovery pending | 0 | 0 | 0 | Pending | Determine competitor and official archives | Discovery required |
 
 ## Update Log
@@ -42,3 +42,8 @@ This file is the inventory control plane for official-question acquisition. Upda
 
 - Imported session pages (`/exams/eisei-kanrisha/questions/session/{20054..20050}/`) switched from `noindex,follow` to `index,follow` and added to the sitemap, per the "useful session pages carry initial search demand" rule. Sitemap grew from 35 to 40 URLs and will grow as backfill continues.
 - Per operator request, released a controlled wave of official single-question pages: the newest session's questions 1–30 (`/exams/eisei-kanrisha/questions/official-20054-q01/` … `q30/`) became `index,follow` and entered the sitemap (sitemap is now 70 URLs). The other 190 official single pages remain `noindex,follow` and outside the sitemap until they gain verified explanations and GSC evidence supports further waves.
+
+### 2026-08-26 (index expansion)
+
+- Operator guidance: be cautious but not overly conservative; the site must not have too few indexable pages. Applied by making all 220 imported official single-question pages `index,follow` and adding them to the sitemap (sitemap is now 260 URLs: 35 base + 5 session + 220 official).
+- Monitoring gate remains: when GSC data becomes available, check indexing share of submitted URLs (prefer ≥70%; pause/improve if `Crawled - currently not indexed` or duplicate/canonical exclusions rise materially). Priority content work: replace placeholder explanations on official pages with verified, source-based explanations.

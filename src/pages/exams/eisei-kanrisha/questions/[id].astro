@@ -3,7 +3,7 @@ import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import Header from "../../../../components/Header.astro";
 import Footer from "../../../../components/Footer.astro";
 import ShareButton from "../../../../components/ShareButton.astro";
-import { indexableOfficialQuestionIds, questions } from "../../../../data/questions";
+import { questions } from "../../../../data/questions";
 import { breadcrumbSchema } from "../../../../data/site";
 
 const question = questions.find((item) => item.id === Astro.params.id);
@@ -12,8 +12,6 @@ const questionIndex = questions.findIndex((item) => item.id === question.id);
 const next = questions[(questionIndex + 1) % questions.length];
 const related = questions.filter((item) => item.id !== question.id && item.subject === question.subject).slice(0, 3);
 const letters = ["A", "B", "C", "D", "E"];
-const isReviewed = question.contentType === "予想問題";
-const isIndexable = isReviewed || indexableOfficialQuestionIds.has(question.id);
 const structuredData = [
   breadcrumbSchema([
     { name: "合格堂", path: "/" },
@@ -21,7 +19,7 @@ const structuredData = [
     { name: "問題一覧", path: "/exams/eisei-kanrisha/questions/" },
     { name: `問${question.number}`, path: `/exams/eisei-kanrisha/questions/${question.id}/` },
   ]),
-  ...(isIndexable ? [{
+  {
     "@type": "LearningResource",
     name: question.prompt,
     learningResourceType: "Quiz",
@@ -29,14 +27,13 @@ const structuredData = [
     teaches: question.subject,
     inLanguage: "ja",
     isAccessibleForFree: true,
-  }] : []),
+  },
 ];
 ---
 
 <BaseLayout
   title={`第一種衛生管理者 ${question.contentType} 問${question.number}｜${question.subject}｜合格堂`}
   description={`${question.prompt} 第一種衛生管理者の${question.contentType}。解答、解説、出典を確認できます。`}
-  noindex={!isIndexable}
   structuredData={structuredData}
 >
   <Header compact />

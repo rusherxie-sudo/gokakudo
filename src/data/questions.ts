@@ -186,13 +186,6 @@ export const officialQuestionBatches = officialQuestions
 
 export const latestOfficialQuestions = officialQuestionBatches[0]?.questions || [];
 
-export const INDEXED_OFFICIAL_WAVE_LIMIT = 30;
-
-export const indexableOfficialQuestions = officialQuestionBatches[0]?.questions
-  .filter((question) => question.number <= INDEXED_OFFICIAL_WAVE_LIMIT) ?? [];
-
-export const indexableOfficialQuestionIds = new Set(indexableOfficialQuestions.map((question) => question.id));
-
 export const subjects = [
   { name: "関係法令（有害業務）", count: officialQuestions.filter((q) => q.subject === "関係法令（有害業務に係るもの）").length, status: "公開中" },
   { name: "労働衛生（有害業務）", count: officialQuestions.filter((q) => q.subject === "労働衛生（有害業務に係るもの）").length, status: "公開中" },

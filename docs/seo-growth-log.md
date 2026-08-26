@@ -37,6 +37,15 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Verification: `npm run build`, `git diff --check`, sitemap count 70, wave pages `index,follow`, Q31+ `noindex,follow`, full mobile/desktop render check passed.
 - Deployment: `cad2508` → `npm run deploy`; Cloudflare Worker version `6d4b4b4e-dad1-4698-8828-efdbc5d01d4c`. Production verified: sitemap 70 URLs (30 wave pages), wave page `index,follow` with gokakudo.com canonical, Q31+ `noindex,follow`, session pages `index,follow`, workers.dev 301 intact.
 
+### 2026-08-26 (index expansion)
+
+- Operator guidance: question-page indexing should be cautious but not overly conservative; too few indexable pages is also a problem. Expanded the release to the full imported archive: all 220 official single-question pages are now `index,follow` and in the sitemap. Sitemap: 70 → 260 URLs (35 base + 5 session + 220 official). Wave-limit constants removed from `src/data/questions.ts`; official single pages now always indexable.
+- Remaining guardrail: monitor GSC once available (submitted-URL indexing share; prefer ≥70%; pause/improve if quality exclusions rise). Priority content work: replace placeholder explanations with verified, source-based explanations.
+- Changed URLs: 190 additional single-question pages (`official-20054-q31` onward, all sessions).
+- Traffic lever: coverage (indexable question-page archive).
+- Verification: `npm run build`, `git diff --check`, sitemap 260 (220 official), spot-checked `official-20054-q31` and `official-20050-q44` now `index,follow`, full mobile/desktop render check passed.
+- Deployment: `npm run deploy`; Worker version recorded below after production verification.
+
 ## Run Template
 
 ### YYYY-MM-DD

@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { indexableOfficialQuestions, officialQuestionBatches, predictionQuestions } from "../data/questions";
+import { officialQuestionBatches, officialQuestions, predictionQuestions } from "../data/questions";
 import { otsu4Questions } from "../data/otsu4-questions";
 import { trustDocuments } from "../data/trust";
 import { CONTENT_UPDATED_AT, SITE_URL } from "../data/site";
@@ -10,7 +10,7 @@ export const GET: APIRoute = () => {
   const paths = [
     ...staticPaths,
     ...officialQuestionBatches.map((batch) => `/exams/eisei-kanrisha/questions/session/${batch.batchId}/`),
-    ...indexableOfficialQuestions.map((question) => `/exams/eisei-kanrisha/questions/${question.id}/`),
+    ...officialQuestions.map((question) => `/exams/eisei-kanrisha/questions/${question.id}/`),
     ...predictionQuestions.map((question) => `/exams/eisei-kanrisha/questions/${question.id}/`),
     ...otsu4Questions.map((question) => `/exams/kikenbutsu-otsu4/questions/${question.id}/`),
   ];
