@@ -7,15 +7,20 @@ const output = process.argv[3] || "src/data/imported/official-questions.json";
 const ALL_BATCH_IDS = Array.from({ length: 24 }, (_, index) => String(20054 - index));
 const batchIds = batchArg === "all" ? ALL_BATCH_IDS : [batchArg];
 const headers = { "user-agent": "Mozilla/5.0 (compatible; GokakudoQuestionImporter/1.0)" };
+const maxBatches = Number(process.env.GOKAKUDO_MAX_BATCHES || 3);
+const concurrency = Math.min(2, Math.max(1, Number(process.env.GOKAKUDO_CONCURRENCY || 1)));
+const sleepMs = Math.max(800, Number(process.env.GOKAKUDO_SLEEP_MS || 1200));
 
 const clean = (value) => value.replace(/\u00a0/g, " ").replace(/[ \t]+/g, " ").replace(/\s*\n\s*/g, "\n").trim();
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function fetchWithRetry(url, options = {}, attempt = 1) {
   const response = await fetch(url, options);
-  if ((response.status === 429 || response.status >= 500) && attempt <= 8) {
+  if ((response.status === 429 || response.status >= 500) && attempt <= 5) {
     const retryAfter = Number(response.headers.get("retry-after"));
-    const wait = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : Math.min(30000, 3000 * attempt);
+    const wait = Number.isFinite(retryAfter) && retryAfter > 0
+      ? Math.min(retryAfter * 1000, 60000)
+      : Math.min(45000, 4000 * attempt);
     process.stdout.write(`\n${response.status} from ${url}; retrying in ${Math.round(wait / 1000)}s\n`);
     await sleep(wait);
     return fetchWithRetry(url, options, attempt + 1);
@@ -100,10 +105,15 @@ const persist = async () => {
   await mkdir(new URL("../src/data/imported/", import.meta.url), { recursive: true });
   await writeFile(output, `${JSON.stringify({ importedAt: new Date().toISOString(), batches, questions }, null, 2)}\n`);
 };
+let importedCount = 0;
 for (const [batchIndex, batchId] of batchIds.entries()) {
   if (completedBatchIds.has(batchId)) {
     process.stdout.write(`\rBatch ${batchIndex + 1}/${batchIds.length} · already imported`);
     continue;
+  }
+  if (importedCount >= maxBatches) {
+    process.stdout.write(`\nReached GOKAKUDO_MAX_BATCHES=${maxBatches} for this run; stopping.\n`);
+    break;
   }
   const listUrl = `${BASE}/list1/${batchId}?page=1`;
   const { html: listHtml } = await fetchHtml(listUrl);
@@ -111,11 +121,11 @@ for (const [batchIndex, batchId] of batchIds.entries()) {
   const urls = [...new Set($('a[href*="/questions/"]').map((_, node) => $(node).attr("href")).get().filter(Boolean))];
   if (urls.length !== 44) throw new Error(`${batchId}: expected 44 question URLs, found ${urls.length}`);
   const batchQuestions = [];
-  for (let offset = 0; offset < urls.length; offset += 2) {
-    const chunk = urls.slice(offset, offset + 2);
+  for (let offset = 0; offset < urls.length; offset += concurrency) {
+    const chunk = urls.slice(offset, offset + concurrency);
     batchQuestions.push(...await Promise.all(chunk.map((url) => parseQuestion(url, batchId))));
-    process.stdout.write(`\rBatch ${batchIndex + 1}/${batchIds.length} · ${Math.min(offset + 2, 44)}/44`);
-    await sleep(650);
+    process.stdout.write(`\rBatch ${batchIndex + 1}/${batchIds.length} · ${Math.min(offset + concurrency, 44)}/44`);
+    await sleep(sleepMs);
   }
   batchQuestions.sort((a, b) => a.number - b.number);
   const distribution = Object.fromEntries(Object.entries(Object.groupBy(batchQuestions, (question) => question.subject)).map(([subject, items]) => [subject, items.length]));
@@ -127,6 +137,8 @@ for (const [batchIndex, batchId] of batchIds.entries()) {
   batches.push({ batchId, session: batchQuestions[0].officialSession, sourceListUrl: listUrl, count: batchQuestions.length, distribution });
   completedBatchIds.add(batchId);
   await persist();
+  importedCount += 1;
+  if (importedCount < maxBatches) await sleep(3000);
 }
 
 await persist();

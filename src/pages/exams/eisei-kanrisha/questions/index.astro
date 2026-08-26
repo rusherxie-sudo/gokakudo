@@ -15,7 +15,7 @@ const breadcrumbs = breadcrumbSchema([
 
 <BaseLayout
   title="第一種衛生管理者の公表問題・無料予想問題一覧｜合格堂"
-  description="第一種衛生管理者の令和8年4月公表問題44問と、一次資料を確認して独自作成した無料予想問題8問を科目別に掲載。正答と確認元を確認できます。"
+  description={`第一種衛生管理者の公表問題${officialQuestions.length.toLocaleString("ja-JP")}問（${officialQuestionBatches.length}期分）と、一次資料を確認して独自作成した無料予想問題${predictionQuestions.length}問を掲載。正答と確認元を確認できます。`}
   structuredData={breadcrumbs}
 >
   <Header />
@@ -24,7 +24,7 @@ const breadcrumbs = breadcrumbSchema([
     <section class="list-hero shell">
       <p class="eyebrow">公表問題 + 合格堂オリジナル</p>
       <h1>第一種衛生管理者<br />無料問題</h1>
-      <p>令和8年4月公表の全44問と、関係法令の予想問題8問を公開しています。今日の8問は、すべての問題から選ばれます。</p>
+      <p>最新{officialQuestionBatches.length}期の公表問題{officialQuestions.length.toLocaleString("ja-JP")}問と、関係法令の予想問題{predictionQuestions.length}問を公開しています。今日の8問は、すべての問題から選ばれます。</p>
       <div class="hero-actions"><a class="button primary" href="/practice/">今日の8問を解く</a><a class="button soft" href="/practice/?mode=official">最新公表44問に挑戦</a></div>
     </section>
 
@@ -58,8 +58,8 @@ const breadcrumbs = breadcrumbSchema([
       </div>
     </section>
     <section class="ingestion-status shell">
-      <div><p class="eyebrow">公表問題の収録状況</p><h2>最新1期・44問を収録<br />残り23期を順次追加</h2></div>
-      <div><p>過去問ドットコムの年度別・単題ページから題目、選択肢、正答を収録します。第三者が作成した解説、コメント、評価数は収録しません。</p><strong>対象総数：{kakomonnReviewBatches.length}期・{totalReviewQuestions.toLocaleString("ja-JP")}問</strong><a href={kakomonnReviewBatches[0].discoveryUrl} target="_blank" rel="noopener noreferrer">今回の確認元を見る ↗</a></div>
+      <div><p class="eyebrow">公表問題の収録状況</p><h2>{officialQuestionBatches.length}期・{officialQuestions.length.toLocaleString("ja-JP")}問を収録<br />最新から順に検証を継続</h2></div>
+      <div><p>過去問ドットコムの年度別・単題ページから題目、選択肢、正答を収録し、安全衛生技術試験協会の公表PDFで正答を照合しています。第三者が作成した解説、コメント、評価数は収録しません。</p><strong>対象総数：{kakomonnReviewBatches.length}期・{totalReviewQuestions.toLocaleString("ja-JP")}問</strong><a href={kakomonnReviewBatches[0].discoveryUrl} target="_blank" rel="noopener noreferrer">今回の確認元を見る ↗</a></div>
     </section>
   </main>
   <Footer />

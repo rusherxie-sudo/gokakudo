@@ -1,3 +1,6 @@
+import { questions } from "./questions";
+import { otsu4Questions } from "./otsu4-questions";
+
 export type ExamDefinition = {
   slug: "eisei-kanrisha" | "kikenbutsu-otsu4";
   name: string;
@@ -16,7 +19,7 @@ export const exams: ExamDefinition[] = [
     name: "第一種衛生管理者",
     shortName: "衛生管理者",
     category: "国家資格 · 医療・衛生",
-    questionCount: 52,
+    questionCount: questions.length,
     examQuestionCount: 44,
     passMark: 27,
     accent: "green",
@@ -27,7 +30,7 @@ export const exams: ExamDefinition[] = [
     name: "危険物取扱者 乙種4類",
     shortName: "危険物乙4",
     category: "国家資格 · 設備・安全",
-    questionCount: 15,
+    questionCount: otsu4Questions.length,
     examQuestionCount: 35,
     passMark: 21,
     accent: "orange",
@@ -36,4 +39,3 @@ export const exams: ExamDefinition[] = [
 ];
 
 export const examBySlug = Object.fromEntries(exams.map((exam) => [exam.slug, exam])) as Record<ExamDefinition["slug"], ExamDefinition>;
-

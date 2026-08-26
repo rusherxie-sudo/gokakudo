@@ -171,16 +171,18 @@ export const officialQuestions: Question[] = imported.questions.map((question) =
 
 export const questions: Question[] = [...officialQuestions, ...predictionQuestions];
 
-export const officialQuestionBatches = officialQuestions.reduce<Array<{ batchId: string; session: string; questions: Question[] }>>((batches, question) => {
-  const batchId = question.id.match(/^official-(\d+)-/)?.[1] || "unknown";
-  let batch = batches.find((item) => item.batchId === batchId);
-  if (!batch) {
-    batch = { batchId, session: question.officialSession || "公表問題", questions: [] };
-    batches.push(batch);
-  }
-  batch.questions.push(question);
-  return batches;
-}, []);
+export const officialQuestionBatches = officialQuestions
+  .reduce<Array<{ batchId: string; session: string; questions: Question[] }>>((batches, question) => {
+    const batchId = question.id.match(/^official-(\d+)-/)?.[1] || "unknown";
+    let batch = batches.find((item) => item.batchId === batchId);
+    if (!batch) {
+      batch = { batchId, session: question.officialSession || "公表問題", questions: [] };
+      batches.push(batch);
+    }
+    batch.questions.push(question);
+    return batches;
+  }, [])
+  .sort((a, b) => b.batchId.localeCompare(a.batchId));
 
 export const latestOfficialQuestions = officialQuestionBatches[0]?.questions || [];
 

@@ -4,7 +4,7 @@ import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
 import SubjectTable from "../../../components/SubjectTable.astro";
 import ShareButton from "../../../components/ShareButton.astro";
-import { questions } from "../../../data/questions";
+import { officialQuestionBatches, officialQuestions, questions } from "../../../data/questions";
 import { breadcrumbSchema } from "../../../data/site";
 
 const breadcrumbs = breadcrumbSchema([
@@ -37,11 +37,11 @@ const faqSchema = {
         <p class="eyebrow">国家資格 · 医療・衛生</p>
         <h1>第一種衛生管理者</h1>
         <p>働く人の健康と安全を守るための国家資格。関係法令、労働衛生、労働生理を、問題から効率よく身につけます。</p>
-        <div class="hero-actions"><a class="button primary" href="/practice/">8問で実力を測る</a><a class="text-link" href="/exams/eisei-kanrisha/questions/">全52問を見る →</a><ShareButton variant="link" label="この試験を共有" text="第一種衛生管理者を無料で学べる合格堂を見つけました。" /></div>
+        <div class="hero-actions"><a class="button primary" href="/practice/">8問で実力を測る</a><a class="text-link" href="/exams/eisei-kanrisha/questions/">全{questions.length}問を見る →</a><ShareButton variant="link" label="この試験を共有" text="第一種衛生管理者を無料で学べる合格堂を見つけました。" /></div>
       </div>
       <dl class="exam-facts">
         <div><dt>公開中</dt><dd>{questions.length}問</dd></div>
-        <div><dt>公表問題</dt><dd>44問</dd></div>
+        <div><dt>公表問題</dt><dd>{officialQuestions.length}問</dd></div>
         <div><dt>更新</dt><dd>2026年8月</dd></div>
       </dl>
     </section>
@@ -66,7 +66,7 @@ const faqSchema = {
       <div>
         <p class="eyebrow">科目別に学ぶ</p>
         <h2>出題範囲と公開状況</h2>
-        <p class="section-copy">令和8年4月公表の全44問で5科目を公開し、関係法令にはオリジナル予想問題8問も追加しています。</p>
+        <p class="section-copy">最新{officialQuestionBatches.length}期の公表問題{officialQuestions.length.toLocaleString("ja-JP")}問を収録し、関係法令にはオリジナル予想問題も追加しています。年度別アーカイブは令和8年4月から平成26年10月まで順次拡充します。</p>
       </div>
       <SubjectTable />
     </section>
