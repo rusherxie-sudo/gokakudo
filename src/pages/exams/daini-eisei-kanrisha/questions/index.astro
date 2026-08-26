@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import { dainiKakomonnReviewBatches, dainiTotalReviewQuestions } from "../../../../data/daini-question-imports";
+import { dainiLatestOfficialQuestions, dainiOfficialQuestionBatches, dainiOfficialQuestions } from "../../../../data/daini-questions";
+import { breadcrumbSchema } from "../../../../data/site";
+
+const breadcrumbs = breadcrumbSchema([
+  { name: "合格堂", path: "/" },
+  { name: "第二種衛生管理者", path: "/exams/daini-eisei-kanrisha/" },
+  { name: "問題一覧", path: "/exams/daini-eisei-kanrisha/questions/" },
+]);
+---
+
+<BaseLayout
+  title="第二種衛生管理者の公表問題・無料問題一覧｜合格堂"
+  description={`第二種衛生管理者の公表問題${dainiOfficialQuestions.length.toLocaleString("ja-JP")}問（${dainiOfficialQuestionBatches.length}期分）を掲載。正答と確認元を確認できます。`}
+  structuredData={breadcrumbs}
+>
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><a href="/exams/daini-eisei-kanrisha/">第二種衛生管理者</a><span>›</span><strong>問題一覧</strong></div>
+    <section class="list-hero shell">
+      <p class="eyebrow">公表問題</p>
+      <h1>第二種衛生管理者<br />無料問題</h1>
+      <p>最新{dainiOfficialQuestionBatches.length}期の公表問題{dainiOfficialQuestions.length.toLocaleString("ja-JP")}問を公開しています。今日の8問は、すべての問題から選ばれます。</p>
+      <div class="hero-actions"><a class="button primary" href="/practice/?exam=daini-eisei-kanrisha">今日の8問を解く</a><a class="button soft" href="/practice/?exam=daini-eisei-kanrisha&mode=official">最新公表30問に挑戦</a></div>
+    </section>
+
+    <section class="question-index shell" id="question-list">
+      <div class="index-head"><h2>{dainiOfficialQuestionBatches[0]?.session}</h2><span>{dainiLatestOfficialQuestions.length}問</span></div>
+      <div class="question-links">
+        {dainiLatestOfficialQuestions.map((question, index) => (
+          <a href={`/exams/daini-eisei-kanrisha/questions/${question.id}/`} data-mobile-extra={index >= 10 ? "" : undefined}>
+            <span>問{String(question.number).padStart(2, "0")}</span>
+            <div><strong>{question.prompt}</strong><small>{question.contentType} · 正答・確認元を掲載 · 詳細解説は確認中</small></div>
+            <i>→</i>
+          </a>
+        ))}
+      </div>
+      {dainiLatestOfficialQuestions.length > 10 && <button class="mobile-show-more" type="button" data-show-all>残り{dainiLatestOfficialQuestions.length - 10}問を表示</button>}
+      <div class="archive-heading"><p class="eyebrow">年度別アーカイブ</p><h2>公表時期から選ぶ</h2></div>
+      <div class="session-grid">
+        {dainiOfficialQuestionBatches.map((batch) => (
+          <a href={`/exams/daini-eisei-kanrisha/questions/session/${batch.batchId}/`}><small>{batch.session}</small><strong>{batch.questions.length}問</strong><span>問題を見る →</span></a>
+        ))}
+      </div>
+    </section>
+    <section class="ingestion-status shell">
+      <div><p class="eyebrow">公表問題の収録状況</p><h2>{dainiOfficialQuestionBatches.length}期・{dainiOfficialQuestions.length.toLocaleString("ja-JP")}問を収録<br />最新から順に検証を継続</h2></div>
+      <div><p>過去問ドットコムの年度別・単題ページから題目、選択肢、正答を収録し、安全衛生技術試験協会の公表PDFで正答を照合しています。第三者が作成した解説、コメント、評価数は収録しません。</p><strong>対象総数：{dainiKakomonnReviewBatches.length}期・{dainiTotalReviewQuestions.toLocaleString("ja-JP")}問</strong><a href={dainiKakomonnReviewBatches[0].discoveryUrl} target="_blank" rel="noopener noreferrer">今回の確認元を見る ↗</a></div>
+    </section>
+  </main>
+  <Footer />
+  <script>
+    document.querySelectorAll<HTMLButtonElement>("[data-show-all]").forEach((button) => button.addEventListener("click", () => {
+      button.previousElementSibling?.classList.add("show-all");
+      button.remove();
+    }));
+  </script>
+</BaseLayout>

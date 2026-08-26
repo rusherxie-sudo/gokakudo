@@ -13,7 +13,7 @@ import { exams } from "../../data/exams";
     <section class="exam-catalog shell">
       {exams.map((exam) => (
         <a class:list={["exam-catalog-card", `accent-${exam.accent}`]} href={`/exams/${exam.slug}/`}>
-          <div><small>{exam.category}</small><b>{exam.accent === "orange" ? "乙4" : "衛"}</b></div>
+          <div><small>{exam.category}</small><b>{exam.badge}</b></div>
           <h2>{exam.name}</h2><p>{exam.description}</p>
           <dl><div><dt>公開中</dt><dd>{exam.questionCount}問</dd></div><div><dt>本試験</dt><dd>{exam.examQuestionCount}問</dd></div></dl>
           <span>この資格を学ぶ →</span>
@@ -23,4 +23,3 @@ import { exams } from "../../data/exams";
   </main>
   <Footer />
 </BaseLayout>
-

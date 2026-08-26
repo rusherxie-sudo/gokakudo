@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../../../../../layouts/BaseLayout.astro";
+import Header from "../../../../../components/Header.astro";
+import Footer from "../../../../../components/Footer.astro";
+import { dainiOfficialQuestionBatches } from "../../../../../data/daini-questions";
+
+const batch = dainiOfficialQuestionBatches.find((item) => item.batchId === Astro.params.batch);
+if (!batch) return new Response("Not Found", { status: 404 });
+const distribution = Object.entries(batch.questions.reduce<Record<string, number>>((counts, question) => {
+  counts[question.subject] = (counts[question.subject] || 0) + 1;
+  return counts;
+}, {})).map(([subject, count]) => ({ subject, count }));
+---
+
+<BaseLayout title={`第二種衛生管理者 ${batch.session}の公表問題${batch.questions.length}問｜合格堂`} description={`第二種衛生管理者 ${batch.session}の公表問題${batch.questions.length}問と科目別出題数。問題、選択肢、正答、確認元を掲載しています。詳細解説は確認中です。`}>
+  <Header />
+  <main id="main">
+    <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><a href="/exams/daini-eisei-kanrisha/questions/">問題一覧</a><span>›</span><strong>{batch.session}</strong></div>
+    <section class="list-hero shell"><p class="eyebrow">第二種衛生管理者 · 公表問題</p><h1>{batch.session}<br />全{batch.questions.length}問</h1><p>過去問ドットコムの単題ページから題目・選択肢・正答を収録し、安全衛生技術試験協会の公表PDFで正答を照合しています。第三者による解説は収録していません。</p></section>
+    <section class="session-facts shell"><div class="section-heading"><p class="eyebrow">この期の出題構成</p><h2>科目別の出題数</h2></div><div class="subject-table">{distribution.map((item) => <div class="subject-row"><div><strong>{item.subject}</strong></div><b>{item.count}問</b></div>)}</div></section>
+    <section class="question-index shell"><div class="index-head"><h2>{batch.session}</h2><span>{batch.questions.length}問</span></div><div class="question-links">{batch.questions.map((question, index) => <a href={`/exams/daini-eisei-kanrisha/questions/${question.id}/`} data-mobile-extra={index >= 10 ? "" : undefined}><span>問{String(question.number).padStart(2, "0")}</span><div><strong>{question.prompt}</strong><small>{question.subject} · 公表問題</small></div><i>→</i></a>)}</div>{batch.questions.length > 10 && <button class="mobile-show-more" type="button" data-show-all>残り{batch.questions.length - 10}問を表示</button>}</section>
+  </main>
+  <Footer />
+  <script>
+    document.querySelectorAll<HTMLButtonElement>("[data-show-all]").forEach((button) => button.addEventListener("click", () => {
+      button.previousElementSibling?.classList.add("show-all");
+      button.remove();
+    }));
+  </script>
+</BaseLayout>

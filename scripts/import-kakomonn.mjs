@@ -1,15 +1,20 @@
 import { load } from "cheerio";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
-const BASE = "https://1eiseikanrisha.kakomonn.com";
+const BASE = process.env.GOKAKUDO_SOURCE_BASE || "https://1eiseikanrisha.kakomonn.com";
 const batchArg = process.argv[2] || "20054";
 const output = process.argv[3] || "src/data/imported/official-questions.json";
 const ALL_BATCH_IDS = Array.from({ length: 24 }, (_, index) => String(20054 - index));
 const batchIds = batchArg === "all" ? ALL_BATCH_IDS : [batchArg];
 const headers = { "user-agent": "Mozilla/5.0 (compatible; GokakudoQuestionImporter/1.0)" };
-const maxBatches = Number(process.env.GOKAKUDO_MAX_BATCHES || 3);
+const maxBatches = Number(process.env.GOKAKUDO_MAX_BATCHES || 1);
 const concurrency = Math.min(2, Math.max(1, Number(process.env.GOKAKUDO_CONCURRENCY || 1)));
 const sleepMs = Math.max(800, Number(process.env.GOKAKUDO_SLEEP_MS || 1200));
+const expectedCount = Number(process.env.GOKAKUDO_EXPECTED_COUNT || 44);
+const expectedDistribution = (process.env.GOKAKUDO_EXPECTED_DIST || "7,7,10,10,10")
+  .split(",")
+  .map((value) => Number(value.trim()))
+  .sort((a, b) => a - b);
 
 const clean = (value) => value.replace(/\u00a0/g, " ").replace(/[ \t]+/g, " ").replace(/\s*\n\s*/g, "\n").trim();
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -65,7 +70,7 @@ async function parseQuestion(url, batchId) {
   const $ = load(html);
   const id = url.match(/\/questions\/(\d+)/)?.[1];
   const title = clean($("#js-qttl").text());
-  const match = title.match(/過去問\s+(.+?公表)\s+問(\d+)\s*\((.+?)\s+問(\d+)\)/s);
+  const match = title.match(/過去問\s+(.+?公表)\s+(?:問(\d+)\s*\((.+?)\s+問(\d+)\)|(.+?)\s+問(\d+))/s);
   if (!id || !match) throw new Error(`metadata could not be parsed: ${url}`);
   const promptNode = $(".problem_detail > .ttl").first();
   const choiceNodes = $(".problem_detail > ul.list").first().children("li");
@@ -76,17 +81,17 @@ async function parseQuestion(url, batchId) {
   const correctIndex = await fetchCorrectIndex({ url, id, csrf, cookies: cookiesFrom(response) });
   return {
     id: `official-${batchId}-q${String(match[2]).padStart(2, "0")}`,
-    number: Number(match[2]),
-    subject: clean(match[3]),
-    subjectQuestionNumber: Number(match[4]),
+    number: Number(match[2] || match[6]),
+    subject: clean(match[3] || match[5]),
+    subjectQuestionNumber: Number(match[4] || match[6]),
     difficulty: "公表問題",
     prompt,
     choices,
     correctIndex,
     contentType: "公表問題",
     officialSession: clean(match[1]),
-    officialQuestionNumber: Number(match[2]),
-    sourceLabel: `過去問ドットコム掲載の${clean(match[1])} 問${match[2]}`,
+    officialQuestionNumber: Number(match[2] || match[6]),
+    sourceLabel: `過去問ドットコム掲載の${clean(match[1])} 問${match[2] || match[6]}`,
     sourceUrl: url,
     sourceCheckedAt: new Date().toISOString().slice(0, 10),
   };
@@ -119,19 +124,18 @@ for (const [batchIndex, batchId] of batchIds.entries()) {
   const { html: listHtml } = await fetchHtml(listUrl);
   const $ = load(listHtml);
   const urls = [...new Set($('a[href*="/questions/"]').map((_, node) => $(node).attr("href")).get().filter(Boolean))];
-  if (urls.length !== 44) throw new Error(`${batchId}: expected 44 question URLs, found ${urls.length}`);
+  if (urls.length !== expectedCount) throw new Error(`${batchId}: expected ${expectedCount} question URLs, found ${urls.length}`);
   const batchQuestions = [];
   for (let offset = 0; offset < urls.length; offset += concurrency) {
     const chunk = urls.slice(offset, offset + concurrency);
     batchQuestions.push(...await Promise.all(chunk.map((url) => parseQuestion(url, batchId))));
-    process.stdout.write(`\rBatch ${batchIndex + 1}/${batchIds.length} · ${Math.min(offset + concurrency, 44)}/44`);
+    process.stdout.write(`\rBatch ${batchIndex + 1}/${batchIds.length} · ${Math.min(offset + concurrency, expectedCount)}/${expectedCount}`);
     await sleep(sleepMs);
   }
   batchQuestions.sort((a, b) => a.number - b.number);
   const distribution = Object.fromEntries(Object.entries(Object.groupBy(batchQuestions, (question) => question.subject)).map(([subject, items]) => [subject, items.length]));
-  const expected = [7, 7, 10, 10, 10];
   const actual = Object.values(distribution).sort((a, b) => a - b);
-  if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error(`${batchId}: unexpected subject distribution: ${JSON.stringify(distribution)}`);
+  if (JSON.stringify(actual) !== JSON.stringify(expectedDistribution)) throw new Error(`${batchId}: unexpected subject distribution: ${JSON.stringify(distribution)}`);
   if (batchQuestions.some((question, index) => question.number !== index + 1 || question.correctIndex < 0 || question.correctIndex > 4)) throw new Error(`${batchId}: number or answer validation failed`);
   questions.push(...batchQuestions);
   batches.push({ batchId, session: batchQuestions[0].officialSession, sourceListUrl: listUrl, count: batchQuestions.length, distribution });

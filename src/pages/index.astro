@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { questions } from "../data/questions";
 import { otsu4Questions } from "../data/otsu4-questions";
+import { dainiQuestions } from "../data/daini-questions";
 import { exams } from "../data/exams";
 ---
 
@@ -15,7 +16,7 @@ import { exams } from "../data/exams";
   <main id="main">
     <section class="hero shell">
       <div class="hero-copy">
-        <p class="eyebrow">2資格 · {questions.length + otsu4Questions.length}問を無料公開</p>
+        <p class="eyebrow">{exams.length}資格 · {questions.length + otsu4Questions.length + dainiQuestions.length}問を無料公開</p>
         <h1>全部やらなくていい。<br /><em>合格に必要な問題だけ。</em></h1>
         <p class="lead">迷わず始めて、終わったら閉じられる。合格堂は、今日やるべき問題を8問に絞ります。</p>
         <div class="hero-actions">
@@ -27,15 +28,15 @@ import { exams } from "../data/exams";
 
       <aside class="home-exam-picker" aria-label="公開中の資格">
         <div class="picker-head"><span>学ぶ資格を選ぶ</span><a href="/exams/">すべて見る →</a></div>
-        {exams.map((exam) => <a class:list={["picker-exam", `accent-${exam.accent}`]} href={`/exams/${exam.slug}/`}><b>{exam.accent === "orange" ? "乙4" : "衛"}</b><div><small>{exam.category}</small><strong>{exam.name}</strong><span>{exam.questionCount}問公開中</span></div><i>›</i></a>)}
+        {exams.map((exam) => <a class:list={["picker-exam", `accent-${exam.accent}`]} href={`/exams/${exam.slug}/`}><b>{exam.badge}</b><div><small>{exam.category}</small><strong>{exam.name}</strong><span>{exam.questionCount}問公開中</span></div><i>›</i></a>)}
         <p>学習記録と復習対象は、資格ごとに分けて保存します。</p>
       </aside>
     </section>
 
     <section class="trust-strip">
       <div class="shell trust-grid">
-        <div><strong>{questions.length + otsu4Questions.length}</strong><span>公開中の問題</span></div>
-        <div><strong>2</strong><span>公開中の資格</span></div>
+        <div><strong>{questions.length + otsu4Questions.length + dainiQuestions.length}</strong><span>公開中の問題</span></div>
+        <div><strong>{exams.length}</strong><span>公開中の資格</span></div>
         <div><strong>2026.08</strong><span>法令確認日</span></div>
         <p>問題には、法令・試験実施団体などの根拠資料と確認日を表示します。</p>
       </div>
@@ -48,7 +49,7 @@ import { exams } from "../data/exams";
         <p class="section-copy">第一種衛生管理者に加え、危険物乙4を公開しました。資格ごとに試験情報、題庫、復習、学習記録を用意しています。</p>
         <a class="button dark" href="/exams/">資格一覧を見る</a>
       </div>
-      <div class="mini-exam-list">{exams.map(exam => <a href={`/exams/${exam.slug}/`}><span class:list={[`accent-${exam.accent}`]}>{exam.accent === "orange" ? "乙4" : "衛"}</span><div><strong>{exam.name}</strong><small>{exam.questionCount}問 · 無料公開中</small></div><i>→</i></a>)}</div>
+      <div class="mini-exam-list">{exams.map(exam => <a href={`/exams/${exam.slug}/`}><span class:list={[`accent-${exam.accent}`]}>{exam.badge}</span><div><strong>{exam.name}</strong><small>{exam.questionCount}問 · 無料公開中</small></div><i>→</i></a>)}</div>
     </section>
 
     <section class="method-section" id="how-to">

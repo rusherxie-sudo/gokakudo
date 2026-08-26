@@ -16,6 +16,7 @@ This file is the inventory control plane for official-question acquisition. Upda
 |---|---:|---:|---:|---:|---:|---:|---|
 | 第一種衛生管理者 | 24 | 5 | 220 | 220 | 20.8% | 19 sessions / ~834 questions (20049+ need old-format importer) | Active backfill; all imported single-question pages indexable; monitor GSC before further expansion |
 | 危険物取扱者 乙種4類 | Discovery pending | 0 | 0 | 0 | Pending | Determine competitor and official archives | Discovery required |
+| 第二種衛生管理者 | 19 | 1 | 30 | 30 | 5.3% | 18 sessions / 540 questions | Launched 2026-08-26; backfill queue active newest→oldest (57023→57006) |
 
 ## Update Log
 
@@ -47,3 +48,9 @@ This file is the inventory control plane for official-question acquisition. Upda
 
 - Operator guidance: be cautious but not overly conservative; the site must not have too few indexable pages. Applied by making all 220 imported official single-question pages `index,follow` and adding them to the sitemap (sitemap is now 260 URLs: 35 base + 5 session + 220 official).
 - Monitoring gate remains: when GSC data becomes available, check indexing share of submitted URLs (prefer ≥70%; pause/improve if `Crawled - currently not indexed` or duplicate/canonical exclusions rise materially). Priority content work: replace placeholder explanations on official pages with verified, source-based explanations.
+
+### 2026-08-26 (new qualification: 第二種衛生管理者)
+
+- Per the new weekly cadence (operator directive 2026-08-26), launched 第二種衛生管理者 as the first weekly new qualification. Four gates passed: Bing demand (第二種衛生管理者 ~4.6k impressions; 衛生管理者 過去問 ~9k), SERP dominated by apps/book sellers (weak incumbents), stable official source (2eiseikanrisha.kakomonn.com, 19 sessions × 30 questions; exam.or.jp PDFs), and a useful initial set (exam guide + 1 official session 30 questions + practice/review wiring + schema/sitemap).
+- Imported newest session `令和8年4月公表` (57024, 30 questions) with the generalized importer; answers cross-checked 30/30 against official PDF LC20260414-1. Subject distribution 10/10/10 (関係法令/労働衛生/労働生理) validated.
+- All 30 single-question pages and the session page are `index,follow` and in the sitemap (sitemap now 293 URLs). Backfill queue: 18 remaining sessions (57023→57006), 540 questions.

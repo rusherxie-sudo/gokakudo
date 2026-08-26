@@ -46,6 +46,16 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Verification: `npm run build`, `git diff --check`, sitemap 260 (220 official), spot-checked `official-20054-q31` and `official-20050-q44` now `index,follow`, full mobile/desktop render check passed.
 - Deployment: `9b42958` → `npm run deploy`; Cloudflare Worker version `b39c9b15-9b99-4fb0-809a-e2f0f2c1f99e`. Production verified: sitemap 260 URLs (220 official), spot pages `index,follow`, gokakudo.com canonical, workers.dev 301 intact.
 
+### 2026-08-26 (new qualification: 第二種衛生管理者)
+
+- Operator directive: reduce backfill cadence (default 1 session/run) and aim to launch one new qualification per week. Applied: `GOKAKUDO_MAX_BATCHES` default 3→1; AGENTS.md allocation updated to ~40% backfill / ~35% new qualifications / ~25% content-CTR.
+- First weekly launch: 第二種衛生管理者. Gates: (1) demand – Bing 第二種衛生管理者 ~4.6k, 衛生管理者 過去問 ~9k impressions; (2) SERP – top results dominated by apps and book sellers, weak incumbents; (3) source – 2eiseikanrisha.kakomonn.com (19 sessions × 30 questions) with same platform format, official PDFs on exam.or.jp; (4) initial content – exam guide + 1 official session (30 questions) + practice/review wiring + schema/sitemap.
+- Implementation: generalized `scripts/import-kakomonn.mjs` (source base, expected count, expected distribution, both title formats); imported `令和8年4月公表` (57024) – 30 questions, distribution 10/10/10, answers cross-checked 30/30 against official PDF LC20260414-1. New data module `daini-questions.ts`, exams.ts entry (badge 2衛), hub/questions/single/session pages, Header/Footer/home/exams-index/practice wiring, sitemap + llms.txt entries.
+- Traffic lever: coverage (new qualification cluster: 33 new indexable URLs; sitemap 293).
+- Changed URLs: `/exams/daini-eisei-kanrisha/`, `/exams/daini-eisei-kanrisha/questions/`, `/exams/daini-eisei-kanrisha/questions/session/57024/`, 30 single-question pages; home/exams index/llms/sitemap.
+- Verification: `npm run build`, `git diff --check`, 28 mobile/desktop render checks (incl. practice `?exam=daini-eisei-kanrisha`) all pass; canonical on gokakudo.com; official answers 30/30 vs official PDF.
+- Deployment: `npm run deploy`; Worker version recorded below after production verification.
+
 ## Run Template
 
 ### YYYY-MM-DD

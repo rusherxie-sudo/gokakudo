@@ -3,10 +3,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import { questions as eiseiQuestions } from "../data/questions";
 import { otsu4Questions } from "../data/otsu4-questions";
+import { dainiQuestions } from "../data/daini-questions";
 
-const publicQuestionBanks = { "eisei-kanrisha": eiseiQuestions, "kikenbutsu-otsu4": otsu4Questions };
+const publicQuestionBanks = { "eisei-kanrisha": eiseiQuestions, "daini-eisei-kanrisha": dainiQuestions, "kikenbutsu-otsu4": otsu4Questions };
 const publicExamConfig = {
   "eisei-kanrisha": { name: "第一種衛生管理者", home: "/exams/eisei-kanrisha/" },
+  "daini-eisei-kanrisha": { name: "第二種衛生管理者", home: "/exams/daini-eisei-kanrisha/" },
   "kikenbutsu-otsu4": { name: "危険物取扱者 乙種4類", home: "/exams/kikenbutsu-otsu4/" },
 };
 ---
@@ -72,16 +74,17 @@ const publicExamConfig = {
     const questionBanks = JSON.parse(dataNode?.textContent || "{}") as Record<string, PracticeQuestion[]>;
     const examConfig = JSON.parse(document.getElementById("exam-config")?.textContent || "{}") as Record<string, { name: string; home: string }>;
     const params = new URLSearchParams(location.search);
-    const examSlug = params.get("exam") === "kikenbutsu-otsu4" ? "kikenbutsu-otsu4" : "eisei-kanrisha";
+    const examSlug = params.get("exam") === "kikenbutsu-otsu4" ? "kikenbutsu-otsu4" : params.get("exam") === "daini-eisei-kanrisha" ? "daini-eisei-kanrisha" : "eisei-kanrisha";
     const exam = examConfig[examSlug];
     const allQuestions = questionBanks[examSlug] || [];
     const mode = params.get("mode") || "daily";
+    const officialCount = allQuestions.filter((question) => question.contentType === "公表問題" && question.officialSession === "令和8年4月公表").length;
     const modeConfig: Record<string, { label: string; title: string }> = {
       daily: { label: "今日の学習", title: "全範囲から · 8問" },
       wrong: { label: "間違えた問題", title: "もう一度、解いてみる" },
       uncertain: { label: "迷って正解", title: "あいまいを確信に変える" },
       review: { label: "まとめて復習", title: "弱点だけを解き直す" },
-      official: { label: "令和8年4月公表", title: "最新の公表問題 · 44問" },
+      official: { label: "令和8年4月公表", title: `最新の公表問題 · ${officialCount}問` },
     };
     const reviewIds = questionIdsForMode(mode, readLearning(examSlug));
     const dailySeed = Number(new Intl.DateTimeFormat("en-CA", {

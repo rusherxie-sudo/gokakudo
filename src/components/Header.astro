@@ -3,14 +3,15 @@ type Props = { compact?: boolean };
 const { compact = false } = Astro.props;
 const path = Astro.url.pathname;
 const requestedExam = Astro.url.searchParams.get("exam");
-const isOtsu4 = path.includes("kikenbutsu-otsu4") || requestedExam === "kikenbutsu-otsu4";
-const isEisei = path.includes("eisei-kanrisha") ||
-  (["/practice/", "/review/", "/progress/"].includes(path) && requestedExam !== "kikenbutsu-otsu4");
-const hasExamContext = isOtsu4 || isEisei;
-const examName = isOtsu4 ? "危険物乙4" : isEisei ? "第一種衛生管理者" : "資格を選ぶ";
-const examBase = isOtsu4 ? "/exams/kikenbutsu-otsu4" : isEisei ? "/exams/eisei-kanrisha" : "/exams";
-const practiceUrl = isOtsu4 ? "/practice/?exam=kikenbutsu-otsu4" : isEisei ? "/practice/" : "/exams/";
-const querySuffix = isOtsu4 ? "?exam=kikenbutsu-otsu4" : "";
+const isOtsu4 = path.startsWith("/exams/kikenbutsu-otsu4") || requestedExam === "kikenbutsu-otsu4";
+const isDaini = path.startsWith("/exams/daini-eisei-kanrisha") || requestedExam === "daini-eisei-kanrisha";
+const isEisei = path.startsWith("/exams/eisei-kanrisha") ||
+  (["/practice/", "/review/", "/progress/"].includes(path) && requestedExam !== "kikenbutsu-otsu4" && requestedExam !== "daini-eisei-kanrisha");
+const hasExamContext = isOtsu4 || isDaini || isEisei;
+const examName = isOtsu4 ? "危険物乙4" : isDaini ? "第二種衛生管理者" : isEisei ? "第一種衛生管理者" : "資格を選ぶ";
+const examBase = isOtsu4 ? "/exams/kikenbutsu-otsu4" : isDaini ? "/exams/daini-eisei-kanrisha" : isEisei ? "/exams/eisei-kanrisha" : "/exams";
+const practiceUrl = isOtsu4 ? "/practice/?exam=kikenbutsu-otsu4" : isDaini ? "/practice/?exam=daini-eisei-kanrisha" : isEisei ? "/practice/" : "/exams/";
+const querySuffix = isOtsu4 ? "?exam=kikenbutsu-otsu4" : isDaini ? "?exam=daini-eisei-kanrisha" : "";
 const questionsUrl = hasExamContext ? `${examBase}/questions/` : "/exams/";
 const reviewUrl = hasExamContext ? `/review/${querySuffix}` : "/exams/";
 const progressUrl = hasExamContext ? `/progress/${querySuffix}` : "/exams/";
