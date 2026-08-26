@@ -17,7 +17,7 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Changed URLs: every canonical/sitemap/robots/OG URL (site-wide); no route structure changed.
 - Traffic lever: coverage/index hygiene (single canonical host; avoids duplicate-host splitting of the GSC property).
 - Verification: `npm run build`, `git diff --check`, local preview confirmed canonical/sitemap/robots point to gokakudo.com; full mobile/desktop render check passed. Production verified after deploy on both hosts (see deployment note).
-- Deployment: see the deploy record below.
+- Deployment: `5c820b4` → `npm run deploy`; Cloudflare Worker version `2d55cc93-bde1-4435-abe5-d1aac8addae9`. Production verified: `https://gokakudo.com/` 200 with canonical/OG/sitemap/robots on gokakudo.com; `http://gokakudo.com` 308 → `https://gokakudo.com`; `https://gokakudo-eisei.rusher-xie.workers.dev/*` 301 → same path on gokakudo.com.
 
 ## Run Template
 
