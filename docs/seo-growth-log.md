@@ -54,7 +54,7 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Traffic lever: coverage (new qualification cluster: 33 new indexable URLs; sitemap 293).
 - Changed URLs: `/exams/daini-eisei-kanrisha/`, `/exams/daini-eisei-kanrisha/questions/`, `/exams/daini-eisei-kanrisha/questions/session/57024/`, 30 single-question pages; home/exams index/llms/sitemap.
 - Verification: `npm run build`, `git diff --check`, 28 mobile/desktop render checks (incl. practice `?exam=daini-eisei-kanrisha`) all pass; canonical on gokakudo.com; official answers 30/30 vs official PDF.
-- Deployment: `npm run deploy`; Worker version recorded below after production verification.
+- Deployment: `202c97a` → `npm run deploy`; Cloudflare Worker version `53ed2026-3d1d-4480-bd9b-1f9d90b745fe`. Production verified: home shows 3資格・273問; hub/questions/single/session/practice all 200 with gokakudo.com canonicals; sitemap 293 (33 daini entries); workers.dev 301 intact.
 
 ## Run Template
 
