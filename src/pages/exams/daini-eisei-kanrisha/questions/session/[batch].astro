@@ -16,7 +16,7 @@ const distribution = Object.entries(batch.questions.reduce<Record<string, number
   <Header />
   <main id="main">
     <div class="breadcrumb shell"><a href="/">ホーム</a><span>›</span><a href="/exams/daini-eisei-kanrisha/questions/">問題一覧</a><span>›</span><strong>{batch.session}</strong></div>
-    <section class="list-hero shell"><p class="eyebrow">第二種衛生管理者 · 公表問題</p><h1>{batch.session}<br />全{batch.questions.length}問</h1><p>過去問ドットコムの単題ページから題目・選択肢・正答を収録し、安全衛生技術試験協会の公表PDFで正答を照合しています。第三者による解説は収録していません。</p></section>
+    <section class="list-hero shell"><p class="eyebrow">第二種衛生管理者 · 公表問題</p><h1>{batch.session}<br />全{batch.questions.length}問</h1><p>過去問ドットコムの単題ページから題目・選択肢・正答を収録し、安全衛生技術試験協会の公表PDFで正答を照合しています。{batch.batchId === "57024" ? "この期は全問に、法令・公的資料を根拠とした解説を掲載しています。" : "解説は法令・公的資料による確認後に順次追加します。"}第三者による解説は収録していません。</p></section>
     <section class="session-facts shell"><div class="section-heading"><p class="eyebrow">この期の出題構成</p><h2>科目別の出題数</h2></div><div class="subject-table">{distribution.map((item) => <div class="subject-row"><div><strong>{item.subject}</strong></div><b>{item.count}問</b></div>)}</div></section>
     <section class="question-index shell"><div class="index-head"><h2>{batch.session}</h2><span>{batch.questions.length}問</span></div><div class="question-links">{batch.questions.map((question, index) => <a href={`/exams/daini-eisei-kanrisha/questions/${question.id}/`} data-mobile-extra={index >= 10 ? "" : undefined}><span>問{String(question.number).padStart(2, "0")}</span><div><strong>{question.prompt}</strong><small>{question.subject} · 公表問題</small></div><i>→</i></a>)}</div>{batch.questions.length > 10 && <button class="mobile-show-more" type="button" data-show-all>残り{batch.questions.length - 10}問を表示</button>}</section>
   </main>

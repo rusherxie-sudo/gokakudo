@@ -10,6 +10,8 @@ export type Question = {
   choices: string[];
   correctIndex: number;
   explanation: string;
+  explanationSourceLabel?: string;
+  explanationSourceUrl?: string;
   sourceLabel: string;
   sourceUrl: string;
   contentType: "予想問題" | "公表問題";

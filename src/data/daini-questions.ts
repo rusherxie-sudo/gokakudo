@@ -1,5 +1,6 @@
 import imported from "./imported/daini-official-questions.json";
 import type { Question } from "./questions";
+import { daini57024Explanations } from "./daini-57024-explanations";
 
 export const dainiOfficialQuestions: Question[] = imported.questions.map((question) => ({
   id: question.id,
@@ -10,7 +11,9 @@ export const dainiOfficialQuestions: Question[] = imported.questions.map((questi
   prompt: question.prompt,
   choices: question.choices,
   correctIndex: question.correctIndex,
-  explanation: `正答は「${question.choices[question.correctIndex]}」です。この問題は${question.officialSession}の公表問題です。詳細解説は法令・公的資料による確認後に追加します。`,
+  explanation: daini57024Explanations[question.id]?.explanation ?? `正答は「${question.choices[question.correctIndex]}」です。この問題は${question.officialSession}の公表問題です。詳細解説は法令・公的資料による確認後に追加します。`,
+  explanationSourceLabel: daini57024Explanations[question.id]?.explanationSourceLabel,
+  explanationSourceUrl: daini57024Explanations[question.id]?.explanationSourceUrl,
   sourceLabel: question.sourceLabel,
   sourceUrl: question.sourceUrl,
   contentType: "公表問題",
@@ -35,6 +38,7 @@ export const dainiOfficialQuestionBatches = dainiOfficialQuestions
   .sort((a, b) => b.batchId.localeCompare(a.batchId));
 
 export const dainiLatestOfficialQuestions = dainiOfficialQuestionBatches[0]?.questions || [];
+export const dainiLatestSessionExplained = dainiLatestOfficialQuestions.every((question) => question.explanationSourceLabel);
 
 export const dainiSubjects = [
   { name: "関係法令", count: dainiOfficialQuestions.filter((q) => q.subject === "関係法令").length, status: "公開中" },

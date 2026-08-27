@@ -16,7 +16,7 @@ This file is the inventory control plane for official-question acquisition. Upda
 |---|---:|---:|---:|---:|---:|---:|---|
 | 第一種衛生管理者 | 24 | 5 | 220 | 220 | 20.8% | 19 sessions / ~834 questions (20049+ need old-format importer) | Active backfill; all imported single-question pages indexable; monitor GSC before further expansion |
 | 危険物取扱者 乙種4類 | Discovery pending | 0 | 0 | 0 | Pending | Determine competitor and official archives | Discovery required |
-| 第二種衛生管理者 | 19 | 1 | 30 | 30 | 5.3% | 18 sessions / 540 questions | Launched 2026-08-26; backfill queue active newest→oldest (57023→57006) |
+| 第二種衛生管理者 | 19 | 2 | 60 | 60 | 10.5% | 17 sessions / 510 questions | Backfill active newest→oldest (57022→57006); 57024 全問に根拠つき解説を追加 |
 
 ## Update Log
 
@@ -54,3 +54,11 @@ This file is the inventory control plane for official-question acquisition. Upda
 - Per the new weekly cadence (operator directive 2026-08-26), launched 第二種衛生管理者 as the first weekly new qualification. Four gates passed: Bing demand (第二種衛生管理者 ~4.6k impressions; 衛生管理者 過去問 ~9k), SERP dominated by apps/book sellers (weak incumbents), stable official source (2eiseikanrisha.kakomonn.com, 19 sessions × 30 questions; exam.or.jp PDFs), and a useful initial set (exam guide + 1 official session 30 questions + practice/review wiring + schema/sitemap).
 - Imported newest session `令和8年4月公表` (57024, 30 questions) with the generalized importer; answers cross-checked 30/30 against official PDF LC20260414-1. Subject distribution 10/10/10 (関係法令/労働衛生/労働生理) validated.
 - All 30 single-question pages and the session page are `index,follow` and in the sitemap (sitemap now 293 URLs). Backfill queue: 18 remaining sessions (57023→57006), 540 questions.
+
+### 2026-08-27
+
+- Backfilled `令和7年10月公表` (57023, 30 questions) via the kakomonn pipeline. Validated: 30 questions, numbering 1–30, five choices, answer range 0–4, subject distribution 10/10/10, no within-session duplicates; answers cross-checked 30/30 against official PDF LC20252115.
+- Note: 57023 Q1 reflects the pre-amendment rule (深夜業30人以上で専任衛生管理者), which was revised effective 令和8年4月1日 (深夜業要件廃止 → 労基法施行規則第18条各号の健康上特に有害な業務要件へ). The 57024 session's Q1 reflects the current rule; the 57024 explanation documents this difference. Both sets keep their own official answer keys.
+- Added verified, source-based explanations for all 30 questions of the newest session (57024). Legal questions cite current 安衛法/安衛則/労基法/施行令/事務所衛生基準規則 articles verified against e-Gov; guideline/medical questions cite 厚労省指針・環境省WBGT・日本赤十字社 or the official 協会公表PDF for answer confirmation.
+- 第二種衛生管理者 archive coverage: 2/19 sessions (10.5%), 60 usable official questions. Backlog: 17 sessions / ~510 questions (57022→57006).
+- Sitemap grew 293 → 324 URLs (30 new single-question pages + 1 new session page).

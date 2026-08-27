@@ -3,7 +3,7 @@ import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import Header from "../../../../components/Header.astro";
 import Footer from "../../../../components/Footer.astro";
 import { dainiKakomonnReviewBatches, dainiTotalReviewQuestions } from "../../../../data/daini-question-imports";
-import { dainiLatestOfficialQuestions, dainiOfficialQuestionBatches, dainiOfficialQuestions } from "../../../../data/daini-questions";
+import { dainiLatestOfficialQuestions, dainiLatestSessionExplained, dainiOfficialQuestionBatches, dainiOfficialQuestions } from "../../../../data/daini-questions";
 import { breadcrumbSchema } from "../../../../data/site";
 
 const breadcrumbs = breadcrumbSchema([
@@ -15,7 +15,7 @@ const breadcrumbs = breadcrumbSchema([
 
 <BaseLayout
   title="第二種衛生管理者の公表問題・無料問題一覧｜合格堂"
-  description={`第二種衛生管理者の公表問題${dainiOfficialQuestions.length.toLocaleString("ja-JP")}問（${dainiOfficialQuestionBatches.length}期分）を掲載。正答と確認元を確認できます。`}
+  description={`第二種衛生管理者の公表問題${dainiOfficialQuestions.length.toLocaleString("ja-JP")}問（${dainiOfficialQuestionBatches.length}期分）を掲載。最新期は全問に根拠つき解説、正答と確認元も確認できます。`}
   structuredData={breadcrumbs}
 >
   <Header />
@@ -24,7 +24,7 @@ const breadcrumbs = breadcrumbSchema([
     <section class="list-hero shell">
       <p class="eyebrow">公表問題</p>
       <h1>第二種衛生管理者<br />無料問題</h1>
-      <p>最新{dainiOfficialQuestionBatches.length}期の公表問題{dainiOfficialQuestions.length.toLocaleString("ja-JP")}問を公開しています。今日の8問は、すべての問題から選ばれます。</p>
+      <p>最新{dainiOfficialQuestionBatches.length}期の公表問題{dainiOfficialQuestions.length.toLocaleString("ja-JP")}問を公開しています。令和8年4月公表の30問は全問に法令・公的資料を根拠とした解説を掲載。今日の8問は、すべての問題から選ばれます。</p>
       <div class="hero-actions"><a class="button primary" href="/practice/?exam=daini-eisei-kanrisha">今日の8問を解く</a><a class="button soft" href="/practice/?exam=daini-eisei-kanrisha&mode=official">最新公表30問に挑戦</a></div>
     </section>
 
@@ -34,7 +34,7 @@ const breadcrumbs = breadcrumbSchema([
         {dainiLatestOfficialQuestions.map((question, index) => (
           <a href={`/exams/daini-eisei-kanrisha/questions/${question.id}/`} data-mobile-extra={index >= 10 ? "" : undefined}>
             <span>問{String(question.number).padStart(2, "0")}</span>
-            <div><strong>{question.prompt}</strong><small>{question.contentType} · 正答・確認元を掲載 · 詳細解説は確認中</small></div>
+            <div><strong>{question.prompt}</strong><small>{question.contentType} · 正答・確認元を掲載{dainiLatestSessionExplained ? " · 根拠つき解説あり" : ""}</small></div>
             <i>→</i>
           </a>
         ))}

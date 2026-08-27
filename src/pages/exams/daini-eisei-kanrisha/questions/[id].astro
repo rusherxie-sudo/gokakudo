@@ -55,6 +55,9 @@ const structuredData = [
         <p class="result-label">正解は {letters[question.correctIndex]}</p>
         <h2>{question.choices[question.correctIndex]}</h2>
         <p>{question.explanation}</p>
+        {question.explanationSourceLabel && question.explanationSourceUrl && (
+          <a class="source-box" href={question.explanationSourceUrl} target="_blank" rel="noopener noreferrer"><span>解説の根拠</span><strong>{question.explanationSourceLabel}</strong><small>確認済み ↗</small></a>
+        )}
         <a class="source-box" href={question.sourceUrl} target="_blank" rel="noopener noreferrer"><span>確認した根拠</span><strong>{question.sourceLabel}</strong><small>{question.sourceCheckedAt.replaceAll("-", ".")} 確認 ↗</small></a>
         <p class="editorial-note">編集：合格堂運営チーム · 最終確認 {question.sourceCheckedAt.replaceAll("-", ".")}</p>
         <div class="question-end-actions"><a class="button dark" href={`/exams/daini-eisei-kanrisha/questions/${next.id}/`}>次の問題へ</a><ShareButton label="この問題を共有" text={`第二種衛生管理者の${question.contentType}・問${question.number}に挑戦してみませんか。`} /></div>

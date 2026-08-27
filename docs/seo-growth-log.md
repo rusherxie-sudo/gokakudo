@@ -64,6 +64,26 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Verification: `npm run build`, `git diff --check`, 30 mobile/desktop render checks with no console errors (CSP clean); production confirmed snippet, CSP, and privacy text.
 - Deployment: `b743282` → `npm run deploy`; Cloudflare Worker version `31019a55-24d3-4374-abb9-e92d0b29f0c6`.
 
+### 2026-08-27 (backfill + verified explanations for 第二種衛生管理者)
+
+- Data cutoff: 2026-08-27. GSC/GA4 MCP still not exposed in this environment and no local GSC/GA4 credentials were found; recorded as a data-source gap. First GSC 28-day baseline remains to be established.
+- Supporting signals (Bing Webmaster keyword research, country=JP, 3-month window, 2026-08-27):
+  - Existing qualification demand: 衛生管理者 37,133; 第一種衛生管理者 23,896; 衛生管理者試験日程 10,721; 衛生管理者 過去問 8,972; 第一種衛生管理者 過去問 5,504; 第二種衛生管理者 4,642; 第二種衛生管理者 過去問 1,011; 第二種衛生管理者 過去問 解説付き 744; 第一種衛生管理者 過去問 解説付き 626.
+  - Content-gap clusters for future guide pages: 試験日程・受験資格・合格率・難易度・1種2種の違い・勉強時間 (informational; SERP incumbents are official 協会, CIC, u-can).
+  - Next-qualification candidates ranked by Bing impressions: 電気工事士2種 44,725; 危険物乙4 50,019 (already live as prediction-only); 損害保険募集人一般試験 22,502; 電験三種 20,160; 一級建築士 12,276; 作業環境測定士 4,335; 安全管理者選任時研修 4,321; 毒劇物取扱責任者 4,119. Candidates for next weekly launch assessment.
+  - SEMrush skipped this run: Chrome extension control is not exposed in this session (no browser/Node REPL tool available), recorded as a tool gap; used Bing research + live SERP checks instead.
+- Opportunity and evidence: Live SERP checks show the "過去問 解説付き" queries (第一種 626 / 第二種 744 Bing impressions) are dominated by paid book product pages (労働調査会, かんぽう, e-hon) — weak content incumbents, strong fit for the site's free practice + explanation value. The newest daini session (57024) still had placeholder explanations; replacing them with verified, source-based explanations improves index quality of 30 indexable pages and matches the flagged priority content work.
+- Traffic lever: ranking/index-quality (unique value on question pages) + CTR (解説付き signals); the backfilled session (57023) enters index per the existing all-official-pages-indexable policy.
+- Changed URLs:
+  - `/exams/daini-eisei-kanrisha/questions/official-57023-q01/`…`q30/` (new, 30 pages) and `/exams/daini-eisei-kanrisha/questions/session/57023/` (new session page).
+  - `/exams/daini-eisei-kanrisha/questions/official-57024-q01/`…`q30/` – placeholder explanations replaced with verified, source-based explanations; new "解説の根拠" source box.
+  - `/exams/daini-eisei-kanrisha/`, `/exams/daini-eisei-kanrisha/questions/`, `/exams/daini-eisei-kanrisha/questions/session/57024/` – copy updated (2 sessions, 解説付き); home/exams counts auto-updated to 303問.
+  - Sitemap: 293 → 324 URLs; `lastmod` 2026-08-27.
+- Verification: structural validation (30/batch, numbering, choices, answer range, distribution 10/10/10, no intra-session duplicates); official-PDF cross-check 30/30 for 57023 (LC20252115) and re-verified 30/30 for 57024 (LC20260414-1); legal citations verified against current e-Gov texts (安衛法, 安衛則, 安衛法施行令, 労基法施行規則, 事務所衛生基準規則), including the 令和8年4月1日 amendment that removed the 深夜業-based 専任衛生管理者 trigger; `npm run build` (0 errors), `git diff --check`, local preview checks: sitemap 324, all 60 daini question pages + 2 session pages 200, one H1, gokakudo.com canonical, index,follow, 解説の根拠 box on 57024 pages, placeholder retained on 57023 pages.
+- Deployment version: TBD (recorded after deploy + production verification below).
+- Expected observation window: 14–28 days; watch GSC once available for `/exams/daini-eisei-kanrisha/` hub, session pages, and 57024 question pages (解説付き queries), plus index share of the 30 new URLs.
+- Follow-up result: pending. Next-run candidates: (1) continue daini backfill 57022 (1 session/run), (2) build the 受験ガイド informational cluster (日程・受験資格・合格率・1種2種の違い) only with a verified data table and internal links, (3) extend verified explanations to 第一種 20054 when capacity allows, (4) next weekly qualification launch assessment from the candidate list above (check source availability + SERP feasibility before committing).
+
 ## Run Template
 
 ### YYYY-MM-DD
