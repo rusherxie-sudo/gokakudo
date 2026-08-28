@@ -65,7 +65,7 @@ const faqSchema = {
       <div>
         <p class="eyebrow">科目別に学ぶ</p>
         <h2>出題範囲と公開状況</h2>
-        <p class="section-copy">令和8年4月公表（全30問・根拠つき解説付き）と令和7年10月公表（全30問）を3科目で公開しています。年次別アーカイブは順次拡充します。</p>
+        <p class="section-copy">令和8年4月公表（全30問・根拠つき解説付き）、令和7年10月公表、令和7年4月公表（各30問）を3科目で公開しています。年次別アーカイブは順次拡充します。</p>
       </div>
       <div class="subject-table">{dainiSubjects.map((subject) => <div class="subject-row"><div><strong>{subject.name}</strong><span class:list={["subject-status", { live: subject.status === "公開中" }]}>{subject.status}</span></div><b>{subject.count}問</b></div>)}</div>
     </section>

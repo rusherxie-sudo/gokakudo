@@ -16,7 +16,7 @@ This file is the inventory control plane for official-question acquisition. Upda
 |---|---:|---:|---:|---:|---:|---:|---|
 | 第一種衛生管理者 | 24 | 5 | 220 | 220 | 20.8% | 19 sessions / ~834 questions (20049+ need old-format importer) | Active backfill; all imported single-question pages indexable; monitor GSC before further expansion |
 | 危険物取扱者 乙種4類 | Discovery pending | 0 | 0 | 0 | Pending | Determine competitor and official archives | Discovery required |
-| 第二種衛生管理者 | 19 | 2 | 60 | 60 | 10.5% | 17 sessions / 510 questions | Backfill active newest→oldest (57022→57006); 57024 全問に根拠つき解説を追加 |
+| 第二種衛生管理者 | 19 | 3 | 90 | 90 | 15.8% | 16 sessions / 480 questions | Backfill active newest→oldest (57021→57006); 57024 全問に根拠つき解説を追加 |
 
 ## Update Log
 
@@ -62,3 +62,9 @@ This file is the inventory control plane for official-question acquisition. Upda
 - Added verified, source-based explanations for all 30 questions of the newest session (57024). Legal questions cite current 安衛法/安衛則/労基法/施行令/事務所衛生基準規則 articles verified against e-Gov; guideline/medical questions cite 厚労省指針・環境省WBGT・日本赤十字社 or the official 協会公表PDF for answer confirmation.
 - 第二種衛生管理者 archive coverage: 2/19 sessions (10.5%), 60 usable official questions. Backlog: 17 sessions / ~510 questions (57022→57006).
 - Sitemap grew 293 → 324 URLs (30 new single-question pages + 1 new session page).
+
+### 2026-08-28
+
+- Backfilled `令和7年4月公表` (57022, 30 questions) via the kakomonn pipeline. Validated: 30 questions, numbering 1–30, five choices, answer range 0–4, subject distribution 10/10/10, no within-session duplicates; answers cross-checked 30/30 against official 安全衛生技術試験協会 PDF LC20251115 (第二種衛生管理者免許試験, 16 pages).
+- 第二種衛生管理者 archive coverage: 3/19 sessions (15.8%), 90 usable official questions. Backlog: 16 sessions / 480 questions (57021→57006).
+- Sitemap grew 324 → 355 URLs (30 new single-question pages + 1 new session page); hub copy updated to list 3 sessions.

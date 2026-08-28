@@ -86,6 +86,18 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 
 ## Run Template
 
+### 2026-08-28 (第二種衛生管理者 backfill: 令和7年4月公表)
+
+- Data cutoff: 2026-08-28. GSC/GA4 MCP still not exposed in this environment and no local GSC/GA4 credentials were found (data-source gap unchanged); Bing Webmaster site-stats API still unusable for gokakudo (key registered for another domain); Bing keyword-research API was not re-pulled this run because the opportunity set from 2026-08-27 remains valid and this run focused on the backfill allocation.
+- GSC 28-day clicks / previous period: baseline still not measurable (no GSC access); no new search-performance evidence.
+- Opportunity and evidence: archive completeness is the long-term constraint (AGENTS.md ~60% backfill allocation; reduced cadence 1 session/run). Source `2eiseikanrisha.kakomonn.com` responded normally; the 協会 archive page (exam.or.jp/lckohyo) currently lists only the last two upload batches, so the 令和7年4月公表 PDF was located in the 2025/04 upload folder as LC20251115.pdf (第二種衛生管理者免許試験, ○-marked answers). Bing signals from 2026-08-27 (衛生管理者 37k / 第二種衛生管理者 4.6k / 過去問・解説付き clusters) continue to support growing the daini archive.
+- Traffic lever: coverage (official-archive completeness; 31 new indexable URLs under the existing all-official-pages-indexable policy).
+- Changed URLs: `/exams/daini-eisei-kanrisha/questions/official-57022-q01/`…`q30/` (new, 30 pages), `/exams/daini-eisei-kanrisha/questions/session/57022/` (new session page); `/exams/daini-eisei-kanrisha/` hub copy now lists all 3 sessions; home/exams/questions-index counts auto-updated (3資格・333問); sitemap 324 → 355 URLs.
+- Verification: structural validation (30/batch, numbering 1–30, 5 choices, answer range 0–4, distribution 10/10/10, no intra-session duplicates); official-PDF cross-check 30/30 (LC20251115) with zero mismatches; prompts spot-checked against the PDF (content matches; only full-width/half-width paren differences); `npm run build` (0 errors), `git diff --check` clean; local preview: sitemap 355 (3 daini sessions), session/57022 + 30 question pages 200 with one H1, `index,follow`, gokakudo.com canonical; mobile 375px + desktop 1280px render checks on 6 routes with no horizontal overflow and no console errors.
+- Deployment: `npm run deploy`; Worker version recorded after production verification below.
+- Expected observation window: 14–28 days; watch GSC once available for the daini hub, session pages, and the 90 indexable daini question pages (30 new URLs this run), plus `解説付き` clusters from Bing signals.
+- Follow-up result: pending. Next-run candidates: (1) daini backfill 57021 (1 session/run), (2) extend verified explanations to 57023/57022 sessions (or 第一種 20054) as capacity allows, (3) build the 受験ガイド informational cluster (日程・受験資格・合格率・1種2種の違い) only with a verified data table and internal links, (4) next weekly new-qualification launch assessment from the candidate list (電気工事士2種 44.7k / 損害保険募集人 22.5k / 電験三種 20.2k Bing impressions), (5) revisit GSC/GA4/Bing-site credentials to start the first 28-day baseline.
+
 ### YYYY-MM-DD
 
 - Data cutoff:
