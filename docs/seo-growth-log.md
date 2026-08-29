@@ -99,6 +99,23 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Expected observation window: 14–28 days; watch GSC once available for the daini hub, session pages, and the 90 indexable daini question pages (30 new URLs this run), plus `解説付き` clusters from Bing signals.
 - Follow-up result: pending. Next-run candidates: (1) daini backfill 57021 (1 session/run), (2) extend verified explanations to 57023/57022 sessions (or 第一種 20054) as capacity allows, (3) build the 受験ガイド informational cluster (日程・受験資格・合格率・1種2種の違い) only with a verified data table and internal links, (4) next weekly new-qualification launch assessment from the candidate list (電気工事士2種 44.7k / 損害保険募集人 22.5k / 電験三種 20.2k Bing impressions), (5) revisit GSC/GA4/Bing-site credentials to start the first 28-day baseline.
 
+### 2026-08-29（GSC 快赢页：第一種 7 问根拠解说）
+
+- 数据截止：GSC 更新至 2026-08-26。`sc-domain:gokakudo.com` 已可访问，网页索引报告仍显示“正在处理数据，请过 1 天左右再来查看”，因此本轮不把 URL Inspection 抽样冒充全站收录率。
+- 北极星基线：最近 28 天（实际仅 2026-08-22～2026-08-26 有数据）2 点击、117 展示、CTR 1.7%、平均排名 8；前一 28 天为 0 点击/0 展示。阶段目标确定为 2026-10-31 前滚动 28 天达到 100 GSC 点击。当前可见查询 8 个，其中 6 个平均排名在 Top 10，但样本仍很小。
+- 历史改动复盘：第一種最新期次单题页已产生首批 Google 展示和点击，证明公表题页能够承接逐字题干与资格词需求；第二種新增档案尚未进入 GSC 可见页面/查询明细，继续扩索引的收益暂时没有真实数据支持。
+- GSC 页面证据（点击/展示/平均排名）：`20054-q22` 1/10/14.4，`q25` 0/11/7.1，`q39` 0/11/10.6，`q41` 0/10/7.8，`q14` 0/8/7.0，`q40` 0/8/8.8，`q34` 0/8/11.5。`q22` 对应的逐字题干查询已有 1 点击、3 展示、平均排名 11。
+- 辅助证据：Bing 本站 API 已能读取 `https://gokakudo.com`，但仅有 2026-08-25～26 两天且累计 0 点击/0 展示，query/page 细分仍为空。Bing 关键词研究（JP/ja-JP，近 3 个月）显示 `衛生管理者 過去問` 8,290、`第一種衛生管理者 過去問` 5,214 展示，继续支持“免费过往问+解说”主题。SEMrush 本轮未运行：今天是周六，不在每周三的扩词/Keyword Gap 计划内。
+- GA4 缺口：代码中的测量 ID `G-0PSMT5NP01` 在当前账号打开名为 `numpredo.com` 的媒体资源；“网页和屏幕”报告筛选 `/exams/` 返回无数据。未将该资源的 1,088 活跃用户冒充合格堂指标，也未在缺少独立媒体资源时修改测量配置。
+- 机会与选择：按覆盖×排名×CTR排序，已有展示且排名 7～14 的 7 个第一種单题页是本轮最高 ROI；暂停新增索引页，优先把占位解说升级为有独立价值的根拠解说，并强化搜索摘要中的“過去問・解説”意图。
+- 改动 URL：`/exams/eisei-kanrisha/questions/official-20054-q{14|22|25|34|39|40|41}/`。新增独立撰写的全选项解说，分别引用厚生労働省、e-Gov 或已完成 44/44 正答核验的安全卫生技术试验协会公表 PDF；新增“解説の根拠”来源框、`根拠つき解説` 可见标识，并为这 7 页使用更明确的 title/description。其他 213 个第一種公表题页保持不变。
+- 影响杠杆：排名（增加可验证、非占位的独特解释）+ CTR（title/description 明确传达过往问与解说价值）。索引 URL 总数不变，sitemap 仍为 355。
+- 验证：7 个解说来源均 HTTP 200；目标题答案范围、5 选项和题号校验通过；`npm run build` 0 errors/0 warnings；`git diff --check` 通过。移动端 375×812 与桌面端 1280×900 共检查 18 个路由，无横向溢出、元素重叠或控制台错误；7 个目标页均为 200、唯一 H1、`index,follow`、`gokakudo.com` canonical、有效 JSON-LD、2 个来源链接；历史第一種页与第二種页未回归。sitemap 355 URL，robots 指向生产 sitemap。
+- 部署：待本轮代码提交与 `npm run deploy` 后回填 commit 和 Worker 版本。
+- 收录提交：待部署与生产验证后，只对本轮 7 个重大更新 URL 请求重新抓取；这是抓取加速，不代表保证收录或流量。
+- 预期观察窗口：14～28 天。重点比较 7 页的展示、平均排名和 CTR；在 GSC 网页索引报告完成前不扩大单题索引波次。
+- 后续候选：先复查本轮 7 页和第二種档案的 GSC 信号；若索引质量健康，再恢复第二種 `57021` 单期次回填。GA4 需要建立或确认合格堂独立媒体资源后才能形成有效 Organic Search 会话基线。
+
 ### YYYY-MM-DD
 
 - Data cutoff:

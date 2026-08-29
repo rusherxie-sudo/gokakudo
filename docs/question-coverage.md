@@ -68,3 +68,9 @@ This file is the inventory control plane for official-question acquisition. Upda
 - Backfilled `令和7年4月公表` (57022, 30 questions) via the kakomonn pipeline. Validated: 30 questions, numbering 1–30, five choices, answer range 0–4, subject distribution 10/10/10, no within-session duplicates; answers cross-checked 30/30 against official 安全衛生技術試験協会 PDF LC20251115 (第二種衛生管理者免許試験, 16 pages).
 - 第二種衛生管理者 archive coverage: 3/19 sessions (15.8%), 90 usable official questions. Backlog: 16 sessions / 480 questions (57021→57006).
 - Sitemap grew 324 → 355 URLs (30 new single-question pages + 1 new session page); hub copy updated to list 3 sessions.
+
+### 2026-08-29
+
+- GSC showed the first measurable search demand on seven `令和8年4月公表` 第一種衛生管理者 pages (問14・22・25・34・39・40・41), with average positions between 7.0 and 14.4 and zero CTR on six of the seven pages.
+- Added independently written, source-based explanations to those seven pages. Legal and guideline questions cite e-Gov or the 厚生労働省; physiology questions cite the official 安全衛生技術試験協会 PDF whose answer key was already cross-checked 44/44.
+- Archive and index counts are unchanged: 第一種衛生管理者 remains 5/24 sessions, 220 usable questions, and 220 index-eligible single pages. This run improved ranking value instead of expanding the index while the GSC page-indexing report is still processing.

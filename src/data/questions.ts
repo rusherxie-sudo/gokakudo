@@ -1,4 +1,5 @@
 import imported from "./imported/official-questions.json";
+import { eisei20054Explanations } from "./eisei-20054-explanations";
 
 export type Question = {
   id: string;
@@ -162,11 +163,13 @@ export const officialQuestions: Question[] = imported.questions.map((question) =
   prompt: question.prompt,
   choices: question.choices,
   correctIndex: question.correctIndex,
-  explanation: `正答は「${question.choices[question.correctIndex]}」です。この問題は${question.officialSession}の公表問題です。詳細解説は法令・公的資料による確認後に追加します。`,
+  explanation: eisei20054Explanations[question.id]?.explanation ?? `正答は「${question.choices[question.correctIndex]}」です。この問題は${question.officialSession}の公表問題です。詳細解説は法令・公的資料による確認後に追加します。`,
+  explanationSourceLabel: eisei20054Explanations[question.id]?.explanationSourceLabel,
+  explanationSourceUrl: eisei20054Explanations[question.id]?.explanationSourceUrl,
   sourceLabel: question.sourceLabel,
   sourceUrl: question.sourceUrl,
   contentType: "公表問題",
-  sourceCheckedAt: question.sourceCheckedAt,
+  sourceCheckedAt: eisei20054Explanations[question.id] ? "2026-08-29" : question.sourceCheckedAt,
   officialSession: question.officialSession,
   officialQuestionNumber: question.officialQuestionNumber,
 }));
