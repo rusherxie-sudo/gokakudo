@@ -111,8 +111,8 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - 改动 URL：`/exams/eisei-kanrisha/questions/official-20054-q{14|22|25|34|39|40|41}/`。新增独立撰写的全选项解说，分别引用厚生労働省、e-Gov 或已完成 44/44 正答核验的安全卫生技术试验协会公表 PDF；新增“解説の根拠”来源框、`根拠つき解説` 可见标识，并为这 7 页使用更明确的 title/description。其他 213 个第一種公表题页保持不变。
 - 影响杠杆：排名（增加可验证、非占位的独特解释）+ CTR（title/description 明确传达过往问与解说价值）。索引 URL 总数不变，sitemap 仍为 355。
 - 验证：7 个解说来源均 HTTP 200；目标题答案范围、5 选项和题号校验通过；`npm run build` 0 errors/0 warnings；`git diff --check` 通过。移动端 375×812 与桌面端 1280×900 共检查 18 个路由，无横向溢出、元素重叠或控制台错误；7 个目标页均为 200、唯一 H1、`index,follow`、`gokakudo.com` canonical、有效 JSON-LD、2 个来源链接；历史第一種页与第二種页未回归。sitemap 355 URL，robots 指向生产 sitemap。
-- 部署：待本轮代码提交与 `npm run deploy` 后回填 commit 和 Worker 版本。
-- 收录提交：待部署与生产验证后，只对本轮 7 个重大更新 URL 请求重新抓取；这是抓取加速，不代表保证收录或流量。
+- 部署：`3c6c883` → `npm run deploy`；Cloudflare Worker 版本 `74de0fd2-17ad-475e-bcac-bffafa1952bb`。生产抽查 7 个目标页、首页、历史第一種题页和第二種题页均 200；目标页 title/description、唯一 H1、canonical、`index,follow`、JSON-LD、2 个来源链接和移动端答题交互正常；sitemap 355 URL（`lastmod` 2026-08-29），robots 正常，workers.dev 同路径 301 到 `gokakudo.com`。
+- 收录提交：GSC URL Inspection 确认 `q22`、`q14`、`q25` 均“网页已编入索引”。`q22` 的重大更新重抓已明确显示“已请求编入索引”；`q14` 提交后的最终提示未能可靠识别，不重复提交；提交 `q25` 时明确提示“超出了配额”，因此 `q25` 未提交，`q34/q39/q40/q41` 未尝试，留到次日额度。请求重抓只加速发现新内容，不保证收录、排名或流量。
 - 预期观察窗口：14～28 天。重点比较 7 页的展示、平均排名和 CTR；在 GSC 网页索引报告完成前不扩大单题索引波次。
 - 后续候选：先复查本轮 7 页和第二種档案的 GSC 信号；若索引质量健康，再恢复第二種 `57021` 单期次回填。GA4 需要建立或确认合格堂独立媒体资源后才能形成有效 Organic Search 会话基线。
 
