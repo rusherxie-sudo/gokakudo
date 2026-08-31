@@ -169,7 +169,7 @@ export const officialQuestions: Question[] = imported.questions.map((question) =
   sourceLabel: question.sourceLabel,
   sourceUrl: question.sourceUrl,
   contentType: "公表問題",
-  sourceCheckedAt: eisei20054Explanations[question.id] ? "2026-08-29" : question.sourceCheckedAt,
+  sourceCheckedAt: eisei20054Explanations[question.id]?.verifiedAt ?? question.sourceCheckedAt,
   officialSession: question.officialSession,
   officialQuestionNumber: question.officialQuestionNumber,
 }));
