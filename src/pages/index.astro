@@ -9,8 +9,8 @@ import { exams } from "../data/exams";
 ---
 
 <BaseLayout
-  title="合格堂｜資格試験の無料問題集・毎日8問"
-  description="第一種衛生管理者と危険物乙4を無料で学べる資格試験問題集。公的資料に基づく解説と復習機能つきで、登録なしの今日の8問から始められます。"
+  title="合格堂｜衛生管理者・危険物乙4の無料過去問と問題集"
+  description="第一種・第二種衛生管理者と危険物乙4の無料過去問・問題集。公的資料に基づく解説つきで、登録なしの今日の8問から始められます。"
 >
   <Header />
   <main id="main">
@@ -46,7 +46,7 @@ import { exams } from "../data/exams";
       <div>
         <p class="eyebrow">公開中の資格</p>
         <h2>仕事に近い資格から、<br />一つずつ増やします。</h2>
-        <p class="section-copy">第一種衛生管理者に加え、危険物乙4を公開しました。資格ごとに試験情報、題庫、復習、学習記録を用意しています。</p>
+        <p class="section-copy">第一種・第二種衛生管理者に加え、危険物乙4を公開しています。資格ごとに試験情報、過去問、復習、学習記録を用意しています。</p>
         <a class="button dark" href="/exams/">資格一覧を見る</a>
       </div>
       <div class="mini-exam-list">{exams.map(exam => <a href={`/exams/${exam.slug}/`}><span class:list={[`accent-${exam.accent}`]}>{exam.badge}</span><div><strong>{exam.name}</strong><small>{exam.questionCount}問 · 無料公開中</small></div><i>→</i></a>)}</div>

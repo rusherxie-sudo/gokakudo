@@ -14,8 +14,8 @@ const breadcrumbs = breadcrumbSchema([
 ---
 
 <BaseLayout
-  title="第一種衛生管理者の公表問題・無料予想問題一覧｜合格堂"
-  description={`第一種衛生管理者の公表問題${officialQuestions.length.toLocaleString("ja-JP")}問（${officialQuestionBatches.length}期分）と、一次資料を確認して独自作成した無料予想問題${predictionQuestions.length}問を掲載。正答と確認元を確認できます。`}
+  title="第一種衛生管理者の過去問・無料問題一覧（解説付き）｜合格堂"
+  description={`第一種衛生管理者の公表過去問${officialQuestions.length.toLocaleString("ja-JP")}問（${officialQuestionBatches.length}期分）と、一次資料を確認して独自作成した無料予想問題${predictionQuestions.length}問を掲載。根拠資料つきの解説・正答・確認元を確認できます。`}
   structuredData={breadcrumbs}
 >
   <Header />
@@ -34,7 +34,7 @@ const breadcrumbs = breadcrumbSchema([
         {latestOfficialQuestions.map((question, index) => (
           <a href={`/exams/eisei-kanrisha/questions/${question.id}/`} data-mobile-extra={index >= 10 ? "" : undefined}>
             <span>問{String(question.number).padStart(2, "0")}</span>
-            <div><strong>{question.prompt}</strong><small>{question.contentType} · 正答・確認元を掲載 · 詳細解説は確認中</small></div>
+            <div><strong>{question.prompt}</strong><small>{question.contentType} · 正答・確認元を掲載{question.explanationSourceLabel ? " · 根拠つき解説あり" : ""}</small></div>
             <i>→</i>
           </a>
         ))}
