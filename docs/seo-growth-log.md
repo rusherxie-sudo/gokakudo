@@ -10,6 +10,19 @@ North star: Google Search Console organic clicks over complete rolling 28-day wi
 - Topic: qualification examinations and practice questions
 - Baseline status: establish from the first complete GSC data pull; compare the latest complete 28 days with the preceding 28 days.
 
+### 2026-09-05（SEO 元数据刷新 + 第二種发现加速）
+
+- 数据截止：GSC/GA4/Bing 滚动数据至 2026-09-04；线上 sitemap/robots/URL Inspection 抽查 2026-09-05。
+- GSC 28 天点击/前一周期：10 点击/448 展示/CTR 2.23%/均排 10.8（前一 28 天 0/0；站点 2026-08-22 起才有数据）。全部流量来自第一種页。数据源缺口已解决：GA4 测量 ID `G-0PSMT5NP01` 已确认指向 gokakudo.com 独立属性（551320290），30 天 Organic Search 14 会话/12 用户；Bing 本站 API 已验证可读（InIndex 仅 2 页、10 天 0 点击/0 展示）。
+- 页面级证据：第一種 220 题页基本已收录出排名；已增强的 11 页中 q14(2/14/5.6)、q22(2/48/10.6)、q35(1/7/6.6) 有点击，另 8 页(q09/q15/q25/q34/q39/q40/q41/q43)位于第 1 页 6-10 位但 0 点击；第二種 90 题页+3 会话页对 Google 仍是「URL unknown to Google」；第二種 hub 0/17/位置 44.5；危险物乙4 hub 0/12/位置 39.8，题页排名 84-105 未起色。
+- 机会与选择（本轮为 manager 综合 seo/ops 独立评估后的取舍，未沿用旧基线）：(1) 元数据/文案补齐第二種、强化「過去問・解説付き」头部词——首页/资格列表/第一種 hub/题列表的 title+description，并修正「無料予想問題」「詳細解説は確認中」等过时文案；(2) 刷新 sitemap lastmod 至 2026-09-05 触发重抓，加速 95 个未发现第二種 URL 的收录；(3) 派发 seo 后续任务做 GSC/Bing 索引提交。暂缓：在 meta 暴露正答的 CTR 实验（风险/策略未定）、第二種 57023/57022 解说回填（页面尚未收录，先收录再解说）、sem-3ue（周六不在周计划内）。
+- 改动 URL：全站（title/description 元数据）；`/`、`/exams/`、`/exams/eisei-kanrisha/`、`/exams/eisei-kanrisha/questions/`；`/trust/about/`（运营信息文案）；`/llms.txt`；sitemap 355 条 lastmod 全部 2026-09-05。索引 URL 总数不变（355）。
+- 影响杠杆：排名+CTR（头部词「衛生管理者 過去問」「第一種衛生管理者 過去問」相关性 + 「解説付き」信号）+ 覆盖（第二種收录加速）。
+- 验证：`npm run build` 0 errors/0 warnings；`git diff --check` 通过；本地 wrangler dev 逐页核对 title/description/lastmod；桌面 1280px + 移动 375px 共 8 路由无横向溢出、答题交互正常、无控制台错误。
+- 部署：`fcb6d28` → 推 main → Cloudflare Workers Builds 自动部署成功（check-run success，2026-09-05T16:04Z）。生产复检：首页/资格列表/第一種 hub/题列表 title+description 正确，题列表「根拠つき解説あり」=11，sitemap 355 条 lastmod 2026-09-05，关键路由全 200。
+- 预期观察窗口：14–28 天。重点比较 8 个第 1 页零点击第一種页的 CTR、第一種 hub 的「過去問」词展示/排名、第二種 URL 是否开始被抓取收录。
+- 后续候选：(1) 复核 CTR 与头部词效果后决定是否扩大第一種 20054 解说覆盖；(2) 第二種收录后回填 57023/57022 解说；(3) 建受験ガイド信息集群；(4) 每周新资格考试评估；(5) host-admin 核对 CF dashboard WAF/日志告警。
+
 ### 2026-08-26 (domain fix)
 
 - Issue: the operator confirmed `gokakudo.com` is the production custom domain (Cloudflare DNS + HTTPS serving the Worker), but the code had hardcoded `https://gokakudo-eisei.rusher-xie.workers.dev` as `SITE_URL` since the initial baseline commit. As a result canonical, sitemap, robots, OG URLs, and the http→https redirect all pointed to the workers.dev subdomain.
