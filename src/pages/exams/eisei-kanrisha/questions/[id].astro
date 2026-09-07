@@ -33,8 +33,8 @@ const structuredData = [
 ---
 
 <BaseLayout
-  title={hasVerifiedExplanation ? `第一種衛生管理者 過去問 問${question.number} 解説｜${question.officialSession}｜合格堂` : `第一種衛生管理者 ${question.contentType} 問${question.number}｜${question.subject}｜合格堂`}
-  description={hasVerifiedExplanation ? `第一種衛生管理者 ${question.officialSession} 問${question.number}の正答と全選択肢の根拠を、法令・公的資料に基づいて解説します。` : `${question.prompt} 第一種衛生管理者の${question.contentType}。解答、解説、出典を確認できます。`}
+  title={hasVerifiedExplanation ? `第一種衛生管理者 過去問 問${question.number} 解説｜${question.officialSession}｜合格堂` : question.contentType === "公表問題" && question.officialSession ? `第一種衛生管理者 ${question.officialSession} 問${question.number}｜${question.subject}｜合格堂` : `第一種衛生管理者 ${question.contentType} 問${question.number}｜${question.subject}｜合格堂`}
+  description={hasVerifiedExplanation ? `第一種衛生管理者 ${question.officialSession} 問${question.number}の正答と全選択肢の根拠を、法令・公的資料に基づいて解説します。` : question.contentType === "公表問題" && question.officialSession ? `${question.officialSession} 問${question.number}。${question.prompt} 第一種衛生管理者の${question.contentType}。解答、解説、出典を確認できます。` : `${question.prompt} 第一種衛生管理者の${question.contentType}。解答、解説、出典を確認できます。`}
   structuredData={structuredData}
 >
   <Header compact />
